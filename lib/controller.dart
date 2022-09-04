@@ -1,13 +1,16 @@
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
+
+import 'model.dart';
 
 class Controller extends GetxController {
-  int _x = 0;
+  // .obs를 추가함으로써, 이 instance를 observable로 만든다. 즉 구독 가능한 변수로 만든다.
+  final person = Person().obs;
 
-  int get x => _x;
-
-  void increment() {
-    _x++;
-    // state가 바뀌었음을 알리기 위해 update()를 반드시 호출해야한다.
-    update();
+  void updateInfo() {
+    // GetBuilder의 업데이트와 달리, instance의 value에 접근이 가능하다.
+    person.update((person) {
+      person?.age++;
+      person?.name = 'Dae Hyeon';
+    });
   }
 }
