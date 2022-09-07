@@ -50,6 +50,9 @@ class CustomTextFormFeild extends StatelessWidget {
           // 모든 input 상태의 기본 스타일
           border: baseBorder,
 
+          //
+          enabledBorder: baseBorder,
+
           // focused 되어 있을때 border. baseBorder를 복사하여 BorderSide 요소를 복사하여 color만 변경
           focusedBorder: baseBorder.copyWith(
               borderSide: baseBorder.borderSide.copyWith(color: primaryColor))),
