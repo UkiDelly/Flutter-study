@@ -22,3 +22,11 @@ class HomePage extends StatelessWidget {
     return const Scaffold();
   }
 }
+
+// Server Repo
+// "https://github.com/codefactory-co/flutter-lv2-server"
+
+
+// Flutter repo
+
+// "https://github.com/codefactory-co/flutter-lv2-rest-api"
