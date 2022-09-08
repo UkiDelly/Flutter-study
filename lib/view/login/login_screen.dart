@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/common/colors.dart';
@@ -10,7 +9,7 @@ import 'package:flutter_study/common/data.dart';
 import 'package:flutter_study/common/root_tab.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_subtitle.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_title.dart';
-import '../common/custom_text_from_field.dart';
+import '../../common/custom_text_from_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,9 +21,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   //
   String username = '', password = '';
-
-  // create secure storage
-  final storage = FlutterSecureStorage();
 
   //
   @override
