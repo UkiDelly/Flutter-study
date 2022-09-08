@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/basic_screen.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_study/common/colors.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_subtitle.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_title.dart';
 import '../common/custom_text_from_field.dart';
-import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -76,18 +76,17 @@ class LoginScreen extends StatelessWidget {
                     // create an Base64 encoder
                     Codec<String, String> stringToBase64 = utf8.fuse(base64);
 
-                    // convert
+                    // convert the string to token
                     String token = stringToBase64.encode(rawString);
 
                     //
                     try {
                       // call the api
-                      var response = await http.post(Uri.parse(loginApi),
-                          headers: {'authorization': 'Basic $token'});
+                      Response response = await Dio().post('$loginApi/login',
+                          options: Options(
+                              headers: {'authorization': 'Basic $token'}));
 
-                          
-
-                      print(response.body);
+                      print(response.data);
                     } catch (e) {
                       print(e);
                     }
@@ -98,7 +97,23 @@ class LoginScreen extends StatelessWidget {
                 ),
 
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    const refreshToken =
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTY2MjYxODMyMywiZXhwIjoxNjYyNzA0NzIzfQ.CYn1-wpV28sWqQ0MgkCbryyefyG7PSP9L46iDiD9zhE';
+
+                    //
+                    try {
+                      // call the api
+                      Response response = await Dio().post('$loginApi/token',
+                          options: Options(headers: {
+                            'authorization': 'Bearer $refreshToken'
+                          }));
+
+                      print(response.data);
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
                   style: TextButton.styleFrom(foregroundColor: primaryColor),
                   child: const Text("회원가입"),
                 )
