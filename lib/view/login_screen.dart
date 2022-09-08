@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/common/colors.dart';
+import 'package:flutter_study/common/data.dart';
 import 'package:flutter_study/common/root_tab.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_subtitle.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_title.dart';
@@ -20,6 +22,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   //
   String username = '', password = '';
+
+  // create secure storage
+  final storage = FlutterSecureStorage();
 
   //
   @override
@@ -39,7 +44,8 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 // title
                 const LoginScreenTitle(),
-
+                //
+                SizedBox(),
                 //
                 const SizedBox(
                   height: 16,
@@ -96,9 +102,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     //
                     try {
                       // call the api
-                      Response response = await Dio().post('$loginApi/login',
-                          options: Options(
-                              headers: {'authorization': 'Basic $token'}));
+                      Response response = await Dio()
+                          .post('$loginApi/login', options: Options(headers: {'authorization': 'Basic $token'}));
+
+                      // get the refresh & access token
+                      final refreshToken = response.data['refreshToken'];
+                      final accessToken = response.data['accessToken'];
+
+                      // storage the token in the secure storage
+                      await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+                      await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
 
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const RootTab(),
@@ -107,8 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       print(e);
                     }
                   },
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: primaryColor),
+                  style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
                   child: const Text("로그인"),
                 ),
 
@@ -121,11 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     try {
                       // call the api
                       Response response = await Dio().post('$loginApi/token',
-                          options: Options(headers: {
-                            'authorization': 'Bearer $refreshToken'
-                          }));
-
-                      print(response.data);
+                          options: Options(headers: {'authorization': 'Bearer $refreshToken'}));
                     } catch (e) {}
                   },
                   style: TextButton.styleFrom(foregroundColor: primaryColor),
