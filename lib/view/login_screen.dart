@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/common/colors.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_subtitle.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_title.dart';
-
 import '../common/custom_text_from_field.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -66,7 +69,29 @@ class LoginScreen extends StatelessWidget {
 
                 //
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    // id:password
+                    const rawString = 'test@codefactory.ai:testtest';
+
+                    // create an Base64 encoder
+                    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+
+                    // convert
+                    String token = stringToBase64.encode(rawString);
+
+                    //
+                    try {
+                      // call the api
+                      var response = await http.post(Uri.parse(loginApi),
+                          headers: {'authorization': 'Basic $token'});
+
+                          
+
+                      print(response.body);
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
                   style:
                       ElevatedButton.styleFrom(backgroundColor: primaryColor),
                   child: const Text("로그인"),

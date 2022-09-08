@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_study/common/custom_text_from_field.dart';
 import 'package:flutter_study/view/login_screen.dart';
 
 void main() {
