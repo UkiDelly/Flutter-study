@@ -5,13 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/common/colors.dart';
+import 'package:flutter_study/common/root_tab.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_subtitle.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_title.dart';
 import '../common/custom_text_from_field.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  //
+  String username = '', password = '';
+
+  //
   @override
   Widget build(BuildContext context) {
     return BasicScreen(
@@ -47,7 +57,9 @@ class LoginScreen extends StatelessWidget {
                 // 이메일
                 CustomTextFormFeild(
                   hintText: "이메일을 입력해주세요",
-                  onChanged: (String value) {},
+                  onChanged: (String value) {
+                    username = value;
+                  },
                 ),
 
                 //
@@ -59,7 +71,9 @@ class LoginScreen extends StatelessWidget {
                 CustomTextFormFeild(
                   hintText: "비밀번호를 입력해주세요",
                   obcsureText: true,
-                  onChanged: (String value) {},
+                  onChanged: (String value) {
+                    password = value;
+                  },
                 ),
 
                 //
@@ -71,7 +85,7 @@ class LoginScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     // id:password
-                    const rawString = 'test@codefactory.ai:testtest';
+                    final rawString = '$username:$password';
 
                     // create an Base64 encoder
                     Codec<String, String> stringToBase64 = utf8.fuse(base64);
@@ -86,7 +100,9 @@ class LoginScreen extends StatelessWidget {
                           options: Options(
                               headers: {'authorization': 'Basic $token'}));
 
-                      print(response.data);
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const RootTab(),
+                      ));
                     } catch (e) {
                       print(e);
                     }
@@ -110,9 +126,7 @@ class LoginScreen extends StatelessWidget {
                           }));
 
                       print(response.data);
-                    } catch (e) {
-                      print(e);
-                    }
+                    } catch (e) {}
                   },
                   style: TextButton.styleFrom(foregroundColor: primaryColor),
                   child: const Text("회원가입"),
