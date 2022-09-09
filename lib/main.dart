@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_study/data/color_data.dart';
+import 'package:flutter_study/view/persmission/permission_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -10,15 +13,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Flutter study', home: HomePage());
-  }
-}
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+        // Theme
+        theme: ThemeData(
+          primarySwatch: createMaterialColor(mainColor),
+          errorColor: errorColor,
+        ),
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold();
+        //
+
+        title: '노라죠',
+        home: const PermissionScreen());
   }
 }
