@@ -60,13 +60,25 @@ class RestaurantCard extends StatelessWidget {
               ),
               Row(
                 children: [
-                  _IconText(icon: Icons.star, label: rating.toString()),
+                  _IconText(
+                    icon: Icons.star,
+                    label: rating.toString(),
+                  ),
                   renderDot(),
-                  _IconText(icon: Icons.receipt, label: ratingCount.toString()),
+                  _IconText(
+                    icon: Icons.receipt,
+                    label: ratingCount.toString(),
+                  ),
                   renderDot(),
-                  _IconText(icon: Icons.timelapse_outlined, label: '$deliveryTime 분'),
+                  _IconText(
+                    icon: Icons.timelapse_outlined,
+                    label: '$deliveryTime 분',
+                  ),
                   renderDot(),
-                  _IconText(icon: Icons.monetization_on, label: deliveryFee == 0 ? '무료' : deliveryFee.toString()),
+                  _IconText(
+                    icon: Icons.monetization_on,
+                    label: deliveryFee == 0 ? '무료' : deliveryFee.toString(),
+                  ),
                 ],
               )
             ],
