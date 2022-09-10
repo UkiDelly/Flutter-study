@@ -9,31 +9,63 @@ class RootTab extends StatefulWidget {
   State<RootTab> createState() => _RootTabState();
 }
 
-class _RootTabState extends State<RootTab> {
+class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
   int index = 0;
+  late TabController controller;
+
+  void tabListen() {
+    setState(() {
+      index = controller.index;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TabController(length: 4, vsync: this);
+    controller.addListener(() => tabListen());
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(tabListen);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BasicScreen(
       title: "코팩 딜리버리",
-      child: Center(
-        child: Text("Root tab"),
-      ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: primaryColor,
         unselectedItemColor: bodyTextColor,
         selectedFontSize: 10,
         unselectedFontSize: 10,
         type: BottomNavigationBarType.fixed,
-        onTap: (index) => setState(() => this.index = index),
+        onTap: (index) => setState(() => controller.animateTo(index)),
         currentIndex: index,
         showUnselectedLabels: true,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: '홈'),
           BottomNavigationBarItem(icon: Icon(Icons.fastfood_outlined), label: '음식'),
           BottomNavigationBarItem(icon: Icon(Icons.receipt_long_outlined), label: '주문'),
           BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: '프로필'),
         ],
       ),
+      child: TabBarView(physics: const NeverScrollableScrollPhysics(), controller: controller, children: [
+        Container(
+          child: const Text('1'),
+        ),
+        Container(
+          child: const Text('2'),
+        ),
+        Container(
+          child: const Text('3'),
+        ),
+        Container(
+          child: const Text('4'),
+        ),
+      ]),
     );
   }
 }
