@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/common/colors.dart';
 import 'package:flutter_study/common/data.dart';
-import 'package:flutter_study/common/root_tab.dart';
+import 'package:flutter_study/view/root/root_tab.dart';
 import 'package:flutter_study/view/login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {

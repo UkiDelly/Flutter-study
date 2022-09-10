@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/common/colors.dart';
+import 'package:flutter_study/view/restaurant/restaurant_screen.dart';
 
 class RootTab extends StatefulWidget {
   const RootTab({super.key});
@@ -52,20 +53,22 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
           BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: '프로필'),
         ],
       ),
-      child: TabBarView(physics: const NeverScrollableScrollPhysics(), controller: controller, children: [
-        Container(
-          child: const Text('1'),
-        ),
-        Container(
-          child: const Text('2'),
-        ),
-        Container(
-          child: const Text('3'),
-        ),
-        Container(
-          child: const Text('4'),
-        ),
-      ]),
+      child: TabBarView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: controller,
+        children: [
+          const RestaurantScreen(),
+          Container(
+            child: const Text('2'),
+          ),
+          Container(
+            child: const Text('3'),
+          ),
+          Container(
+            child: const Text('4'),
+          ),
+        ],
+      ),
     );
   }
 }
