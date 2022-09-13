@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // title
                 const LoginScreenTitle(),
                 //
-                SizedBox(),
+                const SizedBox(),
                 //
                 const SizedBox(
                   height: 16,
@@ -109,9 +109,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
                       await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
 
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const RootTab(),
-                      ));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const RootTab(),
+                        ),
+                      );
                     } catch (e) {
                       print(e);
                     }
@@ -122,15 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 TextButton(
                   onPressed: () async {
-                    const refreshToken =
-                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTY2MjYxODMyMywiZXhwIjoxNjYyNzA0NzIzfQ.CYn1-wpV28sWqQ0MgkCbryyefyG7PSP9L46iDiD9zhE';
-
-                    //
-                    try {
-                      // call the api
-                      Response response = await Dio().post('$loginApi/token',
-                          options: Options(headers: {'authorization': 'Bearer $refreshToken'}));
-                    } catch (e) {}
+                   
                   },
                   style: TextButton.styleFrom(foregroundColor: primaryColor),
                   child: const Text("회원가입"),

@@ -27,5 +27,6 @@ linter:
     constant_identifier_names: true
     avoid_unnecessary_containers: false
     require_trailing_commas: true
+    use_build_context_synchronously: false
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

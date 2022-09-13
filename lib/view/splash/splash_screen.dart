@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/common/colors.dart';
 import 'package:flutter_study/common/data.dart';
@@ -20,19 +22,27 @@ class _SplashScreenState extends State<SplashScreen> {
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
-    // go to login page if the token is null
-    if (refreshToken == null || accessToken == null) {
+    //
+    try {
+      // call the api
+      Response response = await Dio().post(
+        '$loginApi/token',
+        options: Options(headers: {'authorization': 'Bearer $refreshToken'}),
+      );
+
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => LoginScreen(),
-          ),
-          (route) => false);
-    } else {
+        MaterialPageRoute(
+          builder: (context) => const RootTab(),
+        ),
+        (route) => false,
+      );
+    } catch (e) {
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => RootTab(),
-          ),
-          (route) => false);
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ),
+        (route) => false,
+      );
     }
   }
 
@@ -65,12 +75,12 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
 
             //
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
 
             //
-            CircularProgressIndicator(
+            const CircularProgressIndicator(
               color: Colors.white,
             )
           ],
