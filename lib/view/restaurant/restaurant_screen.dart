@@ -37,8 +37,6 @@ class RestaurantScreen extends StatelessWidget {
                   // final item = snapshot.data![index];,
                   final pItem = RestaurantModel.fromJson(snapshot.data![index]);
 
-                  //
-                  print(pItem.toString());
                   return InkWell(
                     splashFactory: NoSplash.splashFactory,
                     onTap: () => Navigator.of(context).push(

@@ -13,8 +13,37 @@ class RestaurantDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BasicScreen(
       title: item.name,
+      child: CustomScrollView(
+        slivers: <Widget>[renderTop(), renderLabel(), renderProduct()],
+      ),
+
+      // Column(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      //     RestaurantCard(
+      //       item: item,
+      //       isDetail: true,
+      //     ),
+      //     if (detail != null)
+      //       Padding(
+      //         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      //         child: Text(
+      //           detail!,
+      //         ),
+      //       ),
+      //     const Padding(
+      //       padding: EdgeInsets.symmetric(horizontal: 16),
+      //       child: ProductCard(),
+      //     )
+      //   ],
+      // ),
+    );
+  }
+
+  Widget renderTop() {
+    return // sliver 안에 일반 위젯을 넣을시 필요
+        SliverToBoxAdapter(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           RestaurantCard(
             item: item,
@@ -27,11 +56,34 @@ class RestaurantDetailScreen extends StatelessWidget {
                 detail!,
               ),
             ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: ProductCard(),
-          )
         ],
+      ),
+    );
+  }
+
+  Widget renderLabel() {
+    return const SliverPadding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      sliver: SliverToBoxAdapter(
+        child: Text(
+          '메뉴',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+      ),
+    );
+  }
+
+  Widget renderProduct() {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => const Padding(
+            padding: EdgeInsets.only(top: 16.0),
+            child: ProductCard(),
+          ),
+          childCount: 10,
+        ),
       ),
     );
   }
