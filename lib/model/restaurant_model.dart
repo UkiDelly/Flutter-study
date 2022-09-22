@@ -1,6 +1,6 @@
 enum RestaurantPriceRange { expensive, medium, cheap }
 
-class  RestaurantModel {
+class RestaurantModel {
   final String id, name, thumbUrl;
   final RestaurantPriceRange priceRange;
   final List<String> tags;
@@ -30,4 +30,9 @@ class  RestaurantModel {
         deliveryTime: json['deliveryTime'],
         deliveryFee: json['deliveryFee'],
       );
+
+  @override
+  String toString() {
+    return 'RestaurantModel(id: $id, name: $name, thumbnail: $thumbUrl, price range: $priceRange, tags: $tags, ratings: $ratings, rating counts: $ratingsCount, delivery time: $deliveryTime, delivery fee: $deliveryFee)';
+  }
 }

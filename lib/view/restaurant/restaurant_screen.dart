@@ -12,7 +12,7 @@ class RestaurantScreen extends StatelessWidget {
   Future<List> pageinateRestaurant() async {
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
     final response =
-        await Dio().get('$apiUrl/restaurant', options: Options(headers: {'authorization': 'Bearer $accessToken'}));
+        await Dio().get('$api/restaurant', options: Options(headers: {'authorization': 'Bearer $accessToken'}));
 
     return response.data['data'];
   }
@@ -36,13 +36,16 @@ class RestaurantScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   // final item = snapshot.data![index];,
                   final pItem = RestaurantModel.fromJson(snapshot.data![index]);
+
+                  //
+                  print(pItem.toString());
                   return InkWell(
                     splashFactory: NoSplash.splashFactory,
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) => RestaurantDetailScreen(
                           item: pItem,
-                          detail: "Hello there",
+                          detail: "맜있는 떡볶이",
                         ),
                       ),
                     ),

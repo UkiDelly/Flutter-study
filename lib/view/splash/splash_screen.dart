@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
       // call the api
       Response response = await Dio().post(
-        '$apiUrl/auth/token',
+        '$api/auth/token',
         options: Options(headers: {'authorization': 'Bearer $refreshToken'}),
       );
 

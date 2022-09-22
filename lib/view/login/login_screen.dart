@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     try {
                       // call the api
                       Response response = await Dio()
-                          .post('$apiUrl/auth/login', options: Options(headers: {'authorization': 'Basic $token'}));
+                          .post('$api/auth/login', options: Options(headers: {'authorization': 'Basic $token'}));
 
                       // get the refresh & access token
                       final refreshToken = response.data['refreshToken'];
@@ -123,9 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 TextButton(
-                  onPressed: () async {
-                   
-                  },
+                  onPressed: () async {},
                   style: TextButton.styleFrom(foregroundColor: primaryColor),
                   child: const Text("회원가입"),
                 )
