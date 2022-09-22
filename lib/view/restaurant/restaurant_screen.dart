@@ -4,6 +4,7 @@ import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/data.dart';
 import 'package:flutter_study/model/restaurant_model.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
+import 'package:flutter_study/view/restaurant_detail/restaurant_detail_screen.dart';
 
 class RestaurantScreen extends StatelessWidget {
   RestaurantScreen({super.key});
@@ -35,8 +36,19 @@ class RestaurantScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   // final item = snapshot.data![index];,
                   final pItem = RestaurantModel.fromJson(snapshot.data![index]);
-                  return RestaurantCard(
-                    item: pItem,
+                  return InkWell(
+                    splashFactory: NoSplash.splashFactory,
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => RestaurantDetailScreen(
+                          item: pItem,
+                          detail: "Hello there",
+                        ),
+                      ),
+                    ),
+                    child: RestaurantCard(
+                      item: pItem,
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) => const Divider(),

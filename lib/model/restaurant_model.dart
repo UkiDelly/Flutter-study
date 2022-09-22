@@ -1,6 +1,6 @@
 enum RestaurantPriceRange { expensive, medium, cheap }
 
-class RestaurantModel {
+class  RestaurantModel {
   final String id, name, thumbUrl;
   final RestaurantPriceRange priceRange;
   final List<String> tags;

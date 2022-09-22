@@ -57,7 +57,7 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
         physics: const NeverScrollableScrollPhysics(),
         controller: controller,
         children: [
-          const RestaurantScreen(),
+          RestaurantScreen(),
           Container(
             child: const Text('2'),
           ),
