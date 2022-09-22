@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     try {
                       // call the api
                       Response response = await Dio()
-                          .post('$loginApi/login', options: Options(headers: {'authorization': 'Basic $token'}));
+                          .post('$apiUrl/auth/login', options: Options(headers: {'authorization': 'Basic $token'}));
 
                       // get the refresh & access token
                       final refreshToken = response.data['refreshToken'];

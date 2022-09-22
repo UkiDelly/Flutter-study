@@ -5,8 +5,19 @@ class RestaurantCard extends StatelessWidget {
   final Widget image;
   final String name;
   final List<String> tags;
-  final int ratingCount, deliveryTime, deliveryFee;
-  final double rating;
+  final int ratingsCount, deliveryTime, deliveryFee;
+  final double ratings;
+
+  const RestaurantCard({
+    super.key,
+    required this.image,
+    required this.name,
+    required this.tags,
+    required this.ratingsCount,
+    required this.deliveryTime,
+    required this.deliveryFee,
+    required this.ratings,
+  });
 
   renderDot() {
     return const Padding(
@@ -17,17 +28,6 @@ class RestaurantCard extends StatelessWidget {
       ),
     );
   }
-
-  const RestaurantCard({
-    super.key,
-    required this.image,
-    required this.name,
-    required this.tags,
-    required this.ratingCount,
-    required this.deliveryTime,
-    required this.deliveryFee,
-    required this.rating,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -62,12 +62,12 @@ class RestaurantCard extends StatelessWidget {
                 children: [
                   _IconText(
                     icon: Icons.star,
-                    label: rating.toString(),
+                    label: ratings.toString(),
                   ),
                   renderDot(),
                   _IconText(
                     icon: Icons.receipt,
-                    label: ratingCount.toString(),
+                    label: ratingsCount.toString(),
                   ),
                   renderDot(),
                   _IconText(

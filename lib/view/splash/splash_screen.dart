@@ -26,9 +26,11 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
       // call the api
       Response response = await Dio().post(
-        '$loginApi/token',
+        '$apiUrl/auth/token',
         options: Options(headers: {'authorization': 'Bearer $refreshToken'}),
       );
+
+      await storage.write(key: ACCESS_TOKEN_KEY, value: response.data['accessToken']);
 
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
