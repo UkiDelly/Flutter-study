@@ -2,10 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/data.dart';
+import 'package:flutter_study/model/restaurant_model.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 
 class RestaurantScreen extends StatelessWidget {
-  const RestaurantScreen({super.key});
+  RestaurantScreen({super.key});
 
   Future<List> pageinateRestaurant() async {
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
@@ -14,6 +15,8 @@ class RestaurantScreen extends StatelessWidget {
 
     return response.data['data'];
   }
+
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +31,12 @@ class RestaurantScreen extends StatelessWidget {
                 return Container();
               }
               return ListView.separated(
+                controller: _scrollController,
                 itemBuilder: (context, index) {
-                  final item = snapshot.data![index];
+                  // final item = snapshot.data![index];,
+                  final pItem = RestaurantModel.fromJson(snapshot.data![index]);
                   return RestaurantCard(
-                    image: Image.network(
-                      '$apiUrl/${item['thumbUrl']}',
-                      fit: BoxFit.cover,
-                    ),
-                    name: item['name'],
-                    tags: List<String>.from(item['tags']),
-                    ratingsCount: item['ratingsCount'],
-                    deliveryTime: item['deliveryTime'],
-                    deliveryFee: item['deliveryFee'],
-                    ratings: item['ratings'],
+                    item: pItem,
                   );
                 },
                 separatorBuilder: (context, index) => const Divider(),

@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/colors.dart';
+import 'package:flutter_study/model/restaurant_model.dart';
 
 class RestaurantCard extends StatelessWidget {
-  final Widget image;
-  final String name;
-  final List<String> tags;
-  final int ratingsCount, deliveryTime, deliveryFee;
-  final double ratings;
+  final RestaurantModel item;
 
   const RestaurantCard({
     super.key,
-    required this.image,
-    required this.name,
-    required this.tags,
-    required this.ratingsCount,
-    required this.deliveryTime,
-    required this.deliveryFee,
-    required this.ratings,
+    required this.item,
   });
 
   renderDot() {
@@ -36,7 +28,10 @@ class RestaurantCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: image,
+            child: Image.network(
+              '$apiUrl/${item.thumbUrl}',
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(
             height: 16,
@@ -45,14 +40,14 @@ class RestaurantCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                name,
+                item.name,
                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
               ),
               const SizedBox(
                 height: 8,
               ),
               Text(
-                tags.join(' · '),
+                item.tags.join(' · '),
                 style: const TextStyle(color: bodyTextColor, fontSize: 14),
               ),
               const SizedBox(
@@ -62,22 +57,22 @@ class RestaurantCard extends StatelessWidget {
                 children: [
                   _IconText(
                     icon: Icons.star,
-                    label: ratings.toString(),
+                    label: item.ratings.toString(),
                   ),
                   renderDot(),
                   _IconText(
                     icon: Icons.receipt,
-                    label: ratingsCount.toString(),
+                    label: item.ratingsCount.toString(),
                   ),
                   renderDot(),
                   _IconText(
                     icon: Icons.timelapse_outlined,
-                    label: '$deliveryTime 분',
+                    label: '${item.deliveryTime} 분',
                   ),
                   renderDot(),
                   _IconText(
                     icon: Icons.monetization_on,
-                    label: deliveryFee == 0 ? '무료' : deliveryFee.toString(),
+                    label: item.deliveryFee == 0 ? '무료' : item.deliveryFee.toString(),
                   ),
                 ],
               )
