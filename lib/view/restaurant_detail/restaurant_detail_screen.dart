@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/common/data.dart';
+import 'package:flutter_study/model/restaurant_detail_model.dart';
 import 'package:flutter_study/model/restaurant_model.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/widgets/product_card.dart';
@@ -12,7 +13,7 @@ class RestaurantDetailScreen extends StatelessWidget {
   final String? detail;
   const RestaurantDetailScreen({super.key, required this.item, this.detail});
 
-  Future getRestaurantDetail() async {
+  Future<Map<String, dynamic>> getRestaurantDetail() async {
     final url = '$api/restaurant/${item.id}';
 
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
@@ -26,39 +27,43 @@ class RestaurantDetailScreen extends StatelessWidget {
       ),
     );
 
-    return response;
+    return response.data;
   }
 
   @override
   Widget build(BuildContext context) {
     return BasicScreen(
       title: item.name,
-      child: FutureBuilder(
+      child: FutureBuilder<Map<String, dynamic>>(
         future: getRestaurantDetail(),
-        builder: (context, snapshot) {
-          print(snapshot.data);
-          return CustomScrollView(
-            slivers: [renderTop(), renderLabel(), renderProduct()],
-          );
+        builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+          if (snapshot.hasData) {
+            final item = RestaurantDetailModel.fromJson(snapshot.data!);
+            return CustomScrollView(
+              slivers: [renderTop(item), renderLabel(), renderProduct()],
+            );
+          }
+
+          return const Center(child: CircularProgressIndicator.adaptive());
         },
       ),
     );
   }
 
-  Widget renderTop() {
+  Widget renderTop(RestaurantDetailModel model) {
     return // sliver 안에 일반 위젯을 넣을시 필요
         SliverToBoxAdapter(
       child: Column(
         children: [
           RestaurantCard(
-            item: item,
+            item: model,
             isDetail: true,
           ),
           if (detail != null)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
               child: Text(
-                detail!,
+                model.detail,
               ),
             ),
         ],
