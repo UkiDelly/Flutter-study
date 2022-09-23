@@ -40,7 +40,7 @@ class RestaurantDetailScreen extends StatelessWidget {
           if (snapshot.hasData) {
             final item = RestaurantDetailModel.fromJson(snapshot.data!);
             return CustomScrollView(
-              slivers: [renderTop(item), renderLabel(), renderProduct()],
+              slivers: [renderTop(item), renderLabel(), renderProduct(item.products)],
             );
           }
 
@@ -51,8 +51,8 @@ class RestaurantDetailScreen extends StatelessWidget {
   }
 
   Widget renderTop(RestaurantDetailModel model) {
-    return // sliver 안에 일반 위젯을 넣을시 필요
-        SliverToBoxAdapter(
+    // sliver 안에 일반 위젯을 넣을시 필요
+    return SliverToBoxAdapter(
       child: Column(
         children: [
           RestaurantCard(
@@ -83,16 +83,18 @@ class RestaurantDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget renderProduct() {
+  Widget renderProduct(List<RestaurantProductModel> products) {
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
-          (context, index) => const Padding(
-            padding: EdgeInsets.only(top: 16.0),
-            child: ProductCard(),
+          (context, index) => Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: ProductCard(
+              products[index],
+            ),
           ),
-          childCount: 10,
+          childCount: products.length,
         ),
       ),
     );

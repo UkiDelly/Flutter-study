@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/colors.dart';
+import 'package:flutter_study/model/restaurant_detail_model.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+  final RestaurantProductModel product;
+  const ProductCard(this.product, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +15,8 @@ class ProductCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              'asset/img/food/ddeok_bok_gi.jpg',
+            child: Image.network(
+              '$api/${product.imgUrl}',
               width: 110,
               height: 110,
               fit: BoxFit.cover,
@@ -26,25 +29,25 @@ class ProductCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 Text(
-                  "떡볶이",
-                  style: TextStyle(
+                  product.name,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 Text(
-                  "전통 떡볶이의 정석!\n맛있습니다.",
+                  product.detail,
                   maxLines: 2,
                   // 텍스트가 maxLine보다 길 경우 ...으로 표기
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: bodyTextColor, fontSize: 14),
+                  style: const TextStyle(color: bodyTextColor, fontSize: 14),
                 ),
                 Text(
-                  "₩10000",
+                  '₩ ${product.price}',
                   textAlign: TextAlign.right,
-                  style: TextStyle(color: primaryColor, fontSize: 12, fontWeight: FontWeight.w500),
+                  style: const TextStyle(color: primaryColor, fontSize: 12, fontWeight: FontWeight.w500),
                 )
               ],
             ),
