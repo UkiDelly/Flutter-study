@@ -1,5 +1,10 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'restaurant_model.g.dart';
+
 enum RestaurantPriceRange { expensive, medium, cheap }
 
+@JsonSerializable()
 class RestaurantModel {
   final String id, name, thumbUrl;
   final RestaurantPriceRange priceRange;
@@ -19,17 +24,19 @@ class RestaurantModel {
     required this.deliveryFee,
   });
 
-  factory RestaurantModel.fromJson(Map<String, dynamic> json) => RestaurantModel(
-        id: json['id'],
-        name: json['name'],
-        thumbUrl: json['thumbUrl'],
-        priceRange: RestaurantPriceRange.values.firstWhere((element) => element.name == json['priceRange']),
-        tags: List<String>.from(json['tags']),
-        ratings: json['ratings'],
-        ratingsCount: json['ratingsCount'],
-        deliveryTime: json['deliveryTime'],
-        deliveryFee: json['deliveryFee'],
-      );
+  factory RestaurantModel.fromJson(Map<String, dynamic> json) => _$RestaurantModelFromJson(json);
+
+  // factory RestaurantModel.fromJson(Map<String, dynamic> json) => RestaurantModel(
+  //       id: json['id'],
+  //       name: json['name'],
+  //       thumbUrl: json['thumbUrl'],
+  //       priceRange: RestaurantPriceRange.values.firstWhere((element) => element.name == json['priceRange']),
+  //       tags: List<String>.from(json['tags']),
+  //       ratings: json['ratings'],
+  //       ratingsCount: json['ratingsCount'],
+  //       deliveryTime: json['deliveryTime'],
+  //       deliveryFee: json['deliveryFee'],
+  //     );
 
   @override
   String toString() {

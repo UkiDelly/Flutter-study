@@ -51,7 +51,7 @@ class RestaurantDetailScreen extends StatelessWidget {
   }
 
   Widget renderTop(RestaurantDetailModel model) {
-    // sliver 안에 일반 위젯을 넣을시 필요
+  // sliver 안에 일반 위젯을 넣을시 필dy
     return SliverToBoxAdapter(
       child: Column(
         children: [
