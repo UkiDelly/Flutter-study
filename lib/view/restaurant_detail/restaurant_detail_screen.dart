@@ -5,6 +5,7 @@ import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/common/data.dart';
 import 'package:flutter_study/model/restaurant_detail_model.dart';
 import 'package:flutter_study/model/restaurant_model.dart';
+import 'package:flutter_study/repository/restaurant_repo.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/widgets/product_card.dart';
 
@@ -13,32 +14,27 @@ class RestaurantDetailScreen extends StatelessWidget {
   final String? detail;
   const RestaurantDetailScreen({super.key, required this.item, this.detail});
 
-  Future<Map<String, dynamic>> getRestaurantDetail() async {
-    final url = '$api/restaurant/${item.id}';
-
+  Future<RestaurantDetailModel> getRestaurantDetail() async {
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
-    Response response = await Dio().get(
-      url,
-      options: Options(
-        headers: {
-          'authorization': 'Bearer $accessToken',
-        },
-      ),
-    );
+    final dio = Dio();
 
-    return response.data;
+    // repo 인스턴스 생성
+    final repo = RestaurantRepo(dio, baseUrl: '$api/restaurant/');
+
+    // detail 가져오는 함수 실행 (serialization까지 자동)
+    return repo.getRestaurantDetail(item.id);
   }
 
   @override
   Widget build(BuildContext context) {
     return BasicScreen(
       title: item.name,
-      child: FutureBuilder<Map<String, dynamic>>(
+      child: FutureBuilder<RestaurantDetailModel>(
         future: getRestaurantDetail(),
-        builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+        builder: (context, AsyncSnapshot<RestaurantDetailModel> snapshot) {
           if (snapshot.hasData) {
-            final item = RestaurantDetailModel.fromJson(snapshot.data!);
+            final item = snapshot.data!;
             return CustomScrollView(
               slivers: [renderTop(item), renderLabel(), renderProduct(item.products)],
             );
@@ -51,7 +47,7 @@ class RestaurantDetailScreen extends StatelessWidget {
   }
 
   Widget renderTop(RestaurantDetailModel model) {
-  // sliver 안에 일반 위젯을 넣을시 필dy
+    // sliver 안에 일반 위젯을 넣을시 필dy
     return SliverToBoxAdapter(
       child: Column(
         children: [
