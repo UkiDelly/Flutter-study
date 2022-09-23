@@ -22,7 +22,7 @@ class _RestaurantRepo implements RestaurantRepo {
   Future<RestaurantDetailModel> getRestaurantDetail(id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'authorization': ''};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -37,7 +37,7 @@ class _RestaurantRepo implements RestaurantRepo {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),),);
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = RestaurantDetailModel.fromJson(_result.data!);
     return value;
   }

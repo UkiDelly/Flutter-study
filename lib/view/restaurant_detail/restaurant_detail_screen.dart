@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/common/data.dart';
+import 'package:flutter_study/common/dio.dart';
 import 'package:flutter_study/model/restaurant_detail_model.dart';
 import 'package:flutter_study/model/restaurant_model.dart';
 import 'package:flutter_study/repository/restaurant_repo.dart';
@@ -15,9 +17,10 @@ class RestaurantDetailScreen extends StatelessWidget {
   const RestaurantDetailScreen({super.key, required this.item, this.detail});
 
   Future<RestaurantDetailModel> getRestaurantDetail() async {
-    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+    const storage = FlutterSecureStorage();
 
     final dio = Dio();
+    dio.interceptors.add(CustomInterceptor(storage: storage));
 
     // repo 인스턴스 생성
     final repo = RestaurantRepo(dio, baseUrl: '$api/restaurant/');

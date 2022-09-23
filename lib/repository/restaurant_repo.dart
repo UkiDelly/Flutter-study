@@ -17,7 +17,7 @@ abstract class RestaurantRepo {
   // get 메소드 그리고 path
   @GET('/{id}')
   @Headers(
-    {'authorization': ''},
+    {'accessToken': 'true'},
   )
   // JsonSerialization이 된 Model로 자동으로 반환
   Future<RestaurantDetailModel> getRestaurantDetail(
