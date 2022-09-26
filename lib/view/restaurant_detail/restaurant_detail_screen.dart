@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/basic_screen.dart';
-import 'package:flutter_study/common/data.dart';
 import 'package:flutter_study/common/dio.dart';
 import 'package:flutter_study/model/restaurant_detail_model.dart';
 import 'package:flutter_study/model/restaurant_model.dart';
