@@ -4,30 +4,23 @@ import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/data.dart';
 import 'package:flutter_study/common/dio.dart';
 import 'package:flutter_study/model/restaurant_model.dart';
+import 'package:flutter_study/repository/restaurant_repo.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/restaurant_detail_screen.dart';
 
 class RestaurantScreen extends StatelessWidget {
   RestaurantScreen({super.key});
 
-  Future<List> pageinateRestaurant() async {
+  Future<List<RestaurantModel>> pageinateRestaurant() async {
     final dio = Dio();
 
     dio.interceptors.add(
       CustomInterceptor(storage: storage),
     );
 
+    final response = await RestaurantRepo(dio, baseUrl: '$api/restaurant').paginate();
 
-
-    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-    final response = await Dio().get(
-      '$api/restaurant',
-      options: Options(
-        headers: {'authorization': 'Bearer $accessToken'},
-      ),
-    );
-
-    return response.data['data'];
+    return response.data;
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -38,9 +31,9 @@ class RestaurantScreen extends StatelessWidget {
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: FutureBuilder<List>(
+          child: FutureBuilder<List<RestaurantModel>>(
             future: pageinateRestaurant(),
-            builder: (context, AsyncSnapshot<List> snapshot) {
+            builder: (context, AsyncSnapshot<List<RestaurantModel>> snapshot) {
               if (!snapshot.hasData) {
                 return Container();
               }
@@ -48,7 +41,7 @@ class RestaurantScreen extends StatelessWidget {
                 controller: _scrollController,
                 itemBuilder: (context, index) {
                   // final item = snapshot.data![index];,
-                  final pItem = RestaurantModel.fromJson(snapshot.data![index]);
+                  final pItem = snapshot.data![index];
 
                   return InkWell(
                     splashFactory: NoSplash.splashFactory,

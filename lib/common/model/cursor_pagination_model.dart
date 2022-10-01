@@ -6,7 +6,7 @@ part 'cursor_pagination_model.g.dart';
 @JsonSerializable(
   genericArgumentFactories: true,
 )
-abstract class CursorPagination<T> {
+class CursorPagination<T> {
   final CursorPaginationMeta meta;
   final List<T> data;
 
@@ -22,7 +22,7 @@ abstract class CursorPagination<T> {
 @JsonSerializable()
 class CursorPaginationMeta {
   final int count;
-  final int hasMore;
+  final bool hasMore;
 
   CursorPaginationMeta({
     required this.count,
