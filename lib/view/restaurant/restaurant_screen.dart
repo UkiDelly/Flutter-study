@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/data.dart';
+import 'package:flutter_study/common/dio.dart';
 import 'package:flutter_study/model/restaurant_model.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/restaurant_detail_screen.dart';
@@ -10,9 +11,19 @@ class RestaurantScreen extends StatelessWidget {
   RestaurantScreen({super.key});
 
   Future<List> pageinateRestaurant() async {
+    final dio = Dio();
+
+    dio.interceptors.add(
+      CustomInterceptor(storage: storage),
+    );
+
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-    final response =
-        await Dio().get('$api/restaurant', options: Options(headers: {'authorization': 'Bearer $accessToken'}));
+    final response = await Dio().get(
+      '$api/restaurant',
+      options: Options(
+        headers: {'authorization': 'Bearer $accessToken'},
+      ),
+    );
 
     return response.data['data'];
   }
@@ -43,7 +54,7 @@ class RestaurantScreen extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (_) => RestaurantDetailScreen(
                           item: pItem,
-                          detail: "맜있는 떡볶이",
+                          detail: '맜있는 떡볶이',
                         ),
                       ),
                     ),
