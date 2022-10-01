@@ -17,6 +17,8 @@ class RestaurantScreen extends StatelessWidget {
       CustomInterceptor(storage: storage),
     );
 
+
+
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
     final response = await Dio().get(
       '$api/restaurant',
