@@ -21,6 +21,8 @@ class _ListenProviderScreenState extends ConsumerState<ListenProviderScreen> wit
     controller = TabController(
       length: 10,
       vsync: this,
+
+      // initState()는 단발성(일회성)으로 실행하기 때문에 provider의 값을 일회성으로 가져오는 read() 함수를 사용한다.
       initialIndex: ref.read(listenProvider),
     );
   }
