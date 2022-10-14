@@ -37,7 +37,7 @@ class _RestaurantRepo implements RestaurantRepo {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),),);
     final value = CursorPagination<RestaurantModel>.fromJson(
       _result.data!,
       (json) => RestaurantModel.fromJson(json as Map<String, dynamic>),
@@ -64,7 +64,7 @@ class _RestaurantRepo implements RestaurantRepo {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),),);
     final value = RestaurantDetailModel.fromJson(_result.data!);
     return value;
   }

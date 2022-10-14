@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/api/api_list.dart';
-import 'package:flutter_study/common/dio.dart';
+import 'package:flutter_study/common/model/cursor_pagination_model.dart';
 import 'package:flutter_study/model/restaurant_model.dart';
 import 'package:flutter_study/repository/restaurant_repo.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
@@ -12,8 +12,6 @@ class RestaurantScreen extends ConsumerWidget {
   RestaurantScreen({super.key});
 
   Future<List<RestaurantModel>> pageinateRestaurant(Dio dio) async {
-
-
     final response = await RestaurantRepo(dio, baseUrl: '$api/restaurant').paginate();
 
     return response.data;
@@ -27,9 +25,9 @@ class RestaurantScreen extends ConsumerWidget {
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: FutureBuilder<List<RestaurantModel>>(
-            future: pageinateRestaurant(ref.read(dioProvider)),
-            builder: (context, AsyncSnapshot<List<RestaurantModel>> snapshot) {
+          child: FutureBuilder<CursorPagination<RestaurantModel>>(
+            future: ref.watch(restaurantRepositoryProvider).paginate(), //  pageinateRestaurant(ref.read(dioProvider)),
+            builder: (context, AsyncSnapshot<CursorPagination<RestaurantModel>> snapshot) {
               if (!snapshot.hasData) {
                 return Container();
               }
@@ -37,7 +35,7 @@ class RestaurantScreen extends ConsumerWidget {
                 controller: _scrollController,
                 itemBuilder: (context, index) {
                   // final item = snapshot.data![index];,
-                  final pItem = snapshot.data![index];
+                  final pItem = snapshot.data!.data[index];
 
                   return InkWell(
                     splashFactory: NoSplash.splashFactory,
@@ -55,7 +53,7 @@ class RestaurantScreen extends ConsumerWidget {
                   );
                 },
                 separatorBuilder: (context, index) => const Divider(),
-                itemCount: snapshot.data!.length,
+                itemCount: snapshot.data!.data.length,
               );
             },
           ),

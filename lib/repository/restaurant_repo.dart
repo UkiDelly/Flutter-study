@@ -1,10 +1,20 @@
 import 'package:dio/dio.dart' hide Headers;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_study/common/dio.dart';
 import 'package:flutter_study/common/model/cursor_pagination_model.dart';
 import 'package:flutter_study/model/restaurant_detail_model.dart';
 import 'package:flutter_study/model/restaurant_model.dart';
 import 'package:retrofit/http.dart';
 
+import '../api/api_list.dart';
+
 part 'restaurant_repo.g.dart';
+
+final restaurantRepositoryProvider = Provider<RestaurantRepo>((ref) {
+  final dio = ref.watch(dioProvider);
+  final repository = RestaurantRepo(dio, baseUrl: '$api/restaurant');
+  return repository;
+});
 
 // restAPI 사용
 @RestApi()

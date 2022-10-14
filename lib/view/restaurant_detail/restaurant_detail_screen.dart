@@ -1,44 +1,33 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_study/api/api_list.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/common/basic_screen.dart';
-import 'package:flutter_study/common/dio.dart';
 import 'package:flutter_study/model/restaurant_detail_model.dart';
 import 'package:flutter_study/model/restaurant_model.dart';
 import 'package:flutter_study/repository/restaurant_repo.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/widgets/product_card.dart';
 
-class RestaurantDetailScreen extends StatelessWidget {
+class RestaurantDetailScreen extends ConsumerWidget {
   final RestaurantModel item;
   final String? detail;
   const RestaurantDetailScreen({super.key, required this.item, this.detail});
 
-  Future<RestaurantDetailModel> getRestaurantDetail() async {
-    const storage = FlutterSecureStorage();
-
-    final dio = Dio();
-    dio.interceptors.add(CustomInterceptor(storage: storage));
-
-    // repo 인스턴스 생성
-    final repo = RestaurantRepo(dio, baseUrl: '$api/restaurant/');
-
-    // detail 가져오는 함수 실행 (serialization까지 자동)
-    return repo.getRestaurantDetail(item.id);
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final repo = ref.watch(restaurantRepositoryProvider);
     return BasicScreen(
       title: item.name,
       child: FutureBuilder<RestaurantDetailModel>(
-        future: getRestaurantDetail(),
+        future: repo.getRestaurantDetail(item.id), //getRestaurantDetail(repo),
         builder: (context, AsyncSnapshot<RestaurantDetailModel> snapshot) {
           if (snapshot.hasData) {
             final item = snapshot.data!;
             return CustomScrollView(
-              slivers: [renderTop(item), renderLabel(), renderProduct(item.products)],
+              slivers: [
+                renderTop(item),
+                renderLabel(),
+                renderProduct(item.products),
+              ],
             );
           }
 
