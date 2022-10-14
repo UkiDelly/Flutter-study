@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_lecture/riverpod/provider_observer.dart';
 import 'package:riverpod_lecture/screen/home_screen.dart';
 
 void main() {
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(
+    ProviderScope(
+      // ProviderScope 하위에 모든 Provider에 Observer가 적용된다.
+      observers: [Logger()],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
