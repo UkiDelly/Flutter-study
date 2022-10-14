@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/common/basic_screen.dart';
-import 'package:flutter_study/model/restaurant_detail_model.dart';
-import 'package:flutter_study/model/restaurant_model.dart';
+
 import 'package:flutter_study/repository/restaurant_repo.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/widgets/product_card.dart';
+
+import '../../model/restaurant/restaurant_detail_model.dart';
+import '../../model/restaurant/restaurant_model.dart';
 
 class RestaurantDetailScreen extends ConsumerWidget {
   final RestaurantModel item;

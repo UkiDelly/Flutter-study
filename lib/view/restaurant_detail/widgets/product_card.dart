@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/colors.dart';
-import 'package:flutter_study/model/restaurant_detail_model.dart';
+
+import '../../../model/restaurant/restaurant_detail_model.dart';
 
 class ProductCard extends StatelessWidget {
   final RestaurantProductModel product;

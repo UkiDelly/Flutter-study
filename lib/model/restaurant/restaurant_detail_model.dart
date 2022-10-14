@@ -1,4 +1,4 @@
-import 'package:flutter_study/model/restaurant_model.dart';
+import 'package:flutter_study/model/restaurant/restaurant_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'restaurant_detail_model.g.dart';

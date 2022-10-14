@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/model/cursor_pagination_model.dart';
-import 'package:flutter_study/model/restaurant_model.dart';
+import 'package:flutter_study/model/restaurant/provider/restaurant_provider.dart';
+
 import 'package:flutter_study/repository/restaurant_repo.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/restaurant_detail_screen.dart';
+
+import '../../model/restaurant/restaurant_model.dart';
 
 class RestaurantScreen extends ConsumerWidget {
   RestaurantScreen({super.key});
@@ -21,6 +24,11 @@ class RestaurantScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //
+    final data = ref.watch(restaurantProvider);
+
+    
+
     return SizedBox(
       child: Center(
         child: Padding(
