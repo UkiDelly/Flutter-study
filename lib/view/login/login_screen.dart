@@ -2,23 +2,25 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/common/colors.dart';
 import 'package:flutter_study/common/data.dart';
+import 'package:flutter_study/common/secure_storage/secure_storage.dart';
 import 'package:flutter_study/view/root/root_tab.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_subtitle.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_title.dart';
 import '../../common/custom_text_from_field.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   //
   String username = '', password = '';
 
@@ -58,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // 이메일
                 CustomTextFormFeild(
-                  hintText: "이메일을 입력해주세요",
+                  hintText: '이메일을 입력해주세요',
                   onChanged: (String value) {
                     username = value;
                   },
@@ -71,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // 비밀번호
                 CustomTextFormFeild(
-                  hintText: "비밀번호를 입력해주세요",
+                  hintText: '비밀번호를 입력해주세요',
                   obcsureText: true,
                   onChanged: (String value) {
                     password = value;
@@ -105,6 +107,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       final refreshToken = response.data['refreshToken'];
                       final accessToken = response.data['accessToken'];
 
+                      final storage = ref.read(secureStorageProvider);
+
                       // storage the token in the secure storage
                       await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
                       await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
@@ -119,13 +123,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
-                  child: const Text("로그인"),
+                  child: const Text('로그인'),
                 ),
 
                 TextButton(
                   onPressed: () async {},
                   style: TextButton.styleFrom(foregroundColor: primaryColor),
-                  child: const Text("회원가입"),
+                  child: const Text('회원가입'),
                 )
               ],
             ),

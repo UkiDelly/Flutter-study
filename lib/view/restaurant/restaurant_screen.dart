@@ -1,22 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/api/api_list.dart';
-import 'package:flutter_study/common/data.dart';
 import 'package:flutter_study/common/dio.dart';
 import 'package:flutter_study/model/restaurant_model.dart';
 import 'package:flutter_study/repository/restaurant_repo.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/restaurant_detail_screen.dart';
 
-class RestaurantScreen extends StatelessWidget {
+class RestaurantScreen extends ConsumerWidget {
   RestaurantScreen({super.key});
 
-  Future<List<RestaurantModel>> pageinateRestaurant() async {
-    final dio = Dio();
+  Future<List<RestaurantModel>> pageinateRestaurant(Dio dio) async {
 
-    dio.interceptors.add(
-      CustomInterceptor(storage: storage),
-    );
 
     final response = await RestaurantRepo(dio, baseUrl: '$api/restaurant').paginate();
 
@@ -26,13 +22,13 @@ class RestaurantScreen extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: FutureBuilder<List<RestaurantModel>>(
-            future: pageinateRestaurant(),
+            future: pageinateRestaurant(ref.read(dioProvider)),
             builder: (context, AsyncSnapshot<List<RestaurantModel>> snapshot) {
               if (!snapshot.hasData) {
                 return Container();
