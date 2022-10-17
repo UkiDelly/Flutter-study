@@ -2,6 +2,7 @@ import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/common/dio.dart';
 import 'package:flutter_study/common/model/cursor_pagination_model.dart';
+import 'package:flutter_study/common/model/pagination_params.dart';
 
 import 'package:retrofit/http.dart';
 
@@ -28,7 +29,9 @@ abstract class RestaurantRepo {
   @Headers(
     {'accessToken': 'true'},
   )
-  Future<CursorPagination<RestaurantModel>> paginate();
+  Future<CursorPagination<RestaurantModel>> paginate({
+    @Queries() PaginationParams? paginationParams = const PaginationParams(),
+  });
 
   // get 메소드 그리고 path
   @GET('/{id}')
