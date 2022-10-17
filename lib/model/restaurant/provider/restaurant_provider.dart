@@ -23,7 +23,7 @@ class RestaurantNotifier extends StateNotifier<CursorPaginationBase> {
   }
 
   // 데이터 가져오기
-  paginate({
+  void paginate({
     int fetchCount = 20,
 
     // true - 데이터 추가로 가져오기
@@ -32,16 +32,33 @@ class RestaurantNotifier extends StateNotifier<CursorPaginationBase> {
 
     // 강제로 다시 로딩하기
     // true - CursorPaginationLoading()
-    bool forceRetch = false,
+    bool forceRefetch = false,
   }) async {
-
     // 5 가지 가능성
     // State의 상태
 
     // 1. CursorPagination - 정상적으로 데이터가 있는 상태
     // 2. CursorPaginationLoading - 데이터가 로딩중인 상태 (현재 캐리 없음)
+
     // 3. CursorPaginationError - 에러가 발생한 상태
     // 4. CursorPaginationRefetching - 다시 첫번째부터 데이터를 가져올때
     // 5. CursorPaginationFetchMore - 추가 데이터를 요청할때
+
+    // 바로 반환하는 상황
+    // 1. hasMore = false (기존 상태에서 이미 다음 데이터가 없을때)
+    if (state is CursorPagination && forceRefetch == false) {
+
+      // state을 CursorPagination으로 파싱
+      final pState = state as CursorPagination;
+
+      // 더이상 데이터가 존재하지 않을때
+      if (pState.meta.hasMore == false) {
+        // 반환
+        return;
+      }
+    }
+    
+    // 2. 로딩중 - fetchMore : true
+    // 2-1. fetMore가 false일때 - 새로고침할 의도가 있다.
   }
 }
