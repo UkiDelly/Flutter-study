@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:json_annotation/json_annotation.dart';
 
 part 'pagination_params.g.dart';
@@ -13,4 +14,14 @@ class PaginationParams {
   const PaginationParams({this.after, this.count});
 
   Map<String, dynamic> toJson() => _$PaginationParamsToJson(this);
+
+  PaginationParams copyWith({
+    String? after,
+    int? count,
+  }) {
+    return PaginationParams(
+      after: after ?? this.after,
+      count: count ?? this.count,
+    );
+  }
 }

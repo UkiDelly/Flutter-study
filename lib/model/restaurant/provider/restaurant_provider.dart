@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/common/model/cursor_pagination_model.dart';
+import 'package:flutter_study/common/model/pagination_params.dart';
 import 'package:flutter_study/repository/restaurant_repo.dart';
 
 final restaurantProvider = StateNotifierProvider<RestaurantNotifier, CursorPaginationBase>((ref) {
@@ -34,24 +35,14 @@ class RestaurantNotifier extends StateNotifier<CursorPaginationBase> {
     // true - CursorPaginationLoading()
     bool forceRefetch = false,
   }) async {
-    // 5 가지 가능성
-    // State의 상태
-
-    // 1. CursorPagination - 정상적으로 데이터가 있는 상태
-    // 2. CursorPaginationLoading - 데이터가 로딩중인 상태 (현재 캐리 없음)
-
-    // 3. CursorPaginationError - 에러가 발생한 상태
-    // 4. CursorPaginationRefetching - 다시 첫번째부터 데이터를 가져올때
-    // 5. CursorPaginationFetchMore - 추가 데이터를 요청할때
-
-    // 바로 반환하는 상황
+    //* 바로 반환하는 상황
     // 1. hasMore = false (기존 상태에서 이미 다음 데이터가 없을때)
     if (state is CursorPagination && forceRefetch == false) {
       // state을 CursorPagination으로 파싱
-      final pState = state as CursorPagination;
+      final tempState = state as CursorPagination;
 
       // 더이상 데이터가 존재하지 않을때
-      if (pState.meta.hasMore == false) {
+      if (tempState.meta.hasMore == false) {
         // 반환
         return;
       }
@@ -63,5 +54,42 @@ class RestaurantNotifier extends StateNotifier<CursorPaginationBase> {
     final isRefetching = state is CursorPaginationRefetching;
     final isFetchingMore = state is CursoPaginationFetchingMore;
     if (fetchMore && (isLoading || isRefetching || isFetchingMore)) return;
+
+    // 5 가지 가능성
+    // State의 상태
+
+    //? 1. CursorPagination - 정상적으로 데이터가 있는 상태
+    //? 2. CursorPaginationLoading - 데이터가 로딩중인 상태 (현재 캐리 없음)
+
+    //? 3. CursorPaginationError - 에러가 발생한 상태
+    //? 4. CursorPaginationRefetching - 다시 첫번째부터 데이터를 가져올때
+
+    //? 5. CursorPaginationFetchMore - 추가 데이터를 요청할때
+    // PaginationParams 생성
+    PaginationParams params = PaginationParams(count: fetchCount);
+    // fetchMore
+    // 데이터를 더 가져오는 상황
+    if (fetchMore) {
+      // fetchMore가 true인 상황은 state가 CursoPagintaion 즉, 데이터를 가지고 있는 상황이므로, state가 데이터를 가지고 있다고 확실시 한다.
+      final tempState = state as CursorPagination;
+
+      // 상태를 fetchingMore으로 변경
+      state = CursoPaginationFetchingMore(meta: tempState.meta, data: tempState.data);
+
+      // param에 마지막 item의 id 추가
+      params = params.copyWith(after: tempState.data.last.id);
+
+      final res = await repository.paginate(paginationParams: params);
+
+      if (state is CursoPaginationFetchingMore) {
+        final tempState = state as CursoPaginationFetchingMore;
+
+        // 기존 데이터에
+        // 새로운 데이터를 추가
+        state = res.copyWith(
+          data: [...tempState.data, ...res.data],
+        );
+      }
+    }
   }
 }
