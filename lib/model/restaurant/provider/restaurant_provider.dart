@@ -23,8 +23,25 @@ class RestaurantNotifier extends StateNotifier<CursorPaginationBase> {
   }
 
   // 데이터 가져오기
-  paginate() async {
-    final res = await repository.paginate();
-    state = res;
+  paginate({
+    int fetchCount = 20,
+
+    // true - 데이터 추가로 가져오기
+    // false - 새로고침 (현재 상태를 덮어씌움)
+    bool fetchMore = false,
+
+    // 강제로 다시 로딩하기
+    // true - CursorPaginationLoading()
+    bool forceRetch = false,
+  }) async {
+
+    // 5 가지 가능성
+    // State의 상태
+
+    // 1. CursorPagination - 정상적으로 데이터가 있는 상태
+    // 2. CursorPaginationLoading - 데이터가 로딩중인 상태 (현재 캐리 없음)
+    // 3. CursorPaginationError - 에러가 발생한 상태
+    // 4. CursorPaginationRefetching - 다시 첫번째부터 데이터를 가져올때
+    // 5. CursorPaginationFetchMore - 추가 데이터를 요청할때
   }
 }
