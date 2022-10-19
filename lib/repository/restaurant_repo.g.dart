@@ -19,9 +19,12 @@ class _RestaurantRepo implements RestaurantRepo {
   String? baseUrl;
 
   @override
-  Future<CursorPagination<RestaurantModel>> paginate() async {
+  Future<CursorPagination<RestaurantModel>> paginate(
+      {paginationParams = const PaginationParams()}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(paginationParams?.toJson() ?? <String, dynamic>{});
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
@@ -37,7 +40,7 @@ class _RestaurantRepo implements RestaurantRepo {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),),);
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = CursorPagination<RestaurantModel>.fromJson(
       _result.data!,
       (json) => RestaurantModel.fromJson(json as Map<String, dynamic>),
@@ -64,7 +67,7 @@ class _RestaurantRepo implements RestaurantRepo {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),),);
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = RestaurantDetailModel.fromJson(_result.data!);
     return value;
   }
