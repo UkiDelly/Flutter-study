@@ -39,7 +39,7 @@ class RestaurantNotifier extends StateNotifier<CursorPaginationBase> {
   }
 
   // 데이터 가져오기
-  void paginate({
+  Future<void> paginate({
     int fetchCount = 20,
 
     // true - 데이터 추가로 가져오기
@@ -130,5 +130,35 @@ class RestaurantNotifier extends StateNotifier<CursorPaginationBase> {
     } catch (e) {
       state = CursorPaginationError('데이터를 가져오지 못했습니다.');
     }
+  }
+
+  void getDetail(String id) async {
+    // 아직 데이터가 하나도 없는 상태라면 즉, CursorPagination이 아니라면
+    // 데이터를 가져오는 시도를 한다.
+    if (state is! CursorPagination) {
+      await paginate();
+    }
+
+    // state가 CursorPagination이 아닐때 그냥 리턴
+    if (state is! CursorPagination) return;
+
+    // 데이터가 있는 상황
+    final tempState = state as CursorPagination;
+
+    // detail api를 호출하여
+    final res = await repository.getRestaurantDetail(id);
+
+    state = tempState.copyWith(
+      data: tempState.data
+          .map<RestaurantModel>(
+            // state 리스트의 RestaurantModel 데이터의 id가 입려받은 id 값과 일치하면, api 요청으로 받은 RestaurantDetailModel으로 변경하고
+            // id 값이 같지 않다면 그냥 원래 데이터를 반환
+
+            // 즉 [RestaurantModel(1),RestaurantModel(2),RestaurantModel(3)] 에서 RestaurantModel(2)의 detail을 가져온다면 state는  [RestaurantModel(1),RestaurantDeatilModel(2),RestaurantModel(3)]로 변경된다.
+            // 변경이 가능한 이유는 RestaurantDetailModel은 RestauranModel은 상속 받기 때문이다.
+            (e) => e.id == id ? res : e,
+          )
+          .toList(),
+    );
   }
 }
