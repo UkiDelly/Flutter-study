@@ -5,6 +5,7 @@ import 'package:flutter_study/model/restaurant/provider/restaurant_provider.dart
 
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/widgets/product_card.dart';
+import 'package:skeletons/skeletons.dart';
 
 import '../../model/restaurant/restaurant_detail_model.dart';
 import '../../model/restaurant/restaurant_model.dart';
@@ -44,9 +45,29 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
           //   const Center(
           //     child: CircularProgressIndicator(),
           //   ),
+          if (state is! RestaurantDetailModel) renderLoading(),
           if (state is RestaurantDetailModel) renderLabel(),
           if (state is RestaurantDetailModel) renderProduct(state.products),
         ],
+      ),
+    );
+  }
+
+  Widget renderLoading() {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      sliver: SliverList(
+        delegate: SliverChildListDelegate(
+          List.generate(
+            3,
+            (index) => Padding(
+              padding: const EdgeInsets.only(bottom: 32),
+              child: SkeletonParagraph(
+                style: const SkeletonParagraphStyle(padding: EdgeInsets.zero, lines: 5),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
