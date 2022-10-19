@@ -66,7 +66,20 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: ListView.separated(
         controller: _scrollController,
+        itemCount: cp.data.length + 1,
         itemBuilder: (context, index) {
+          if (index == cp.data.length) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Center(
+                child: data is CursoPaginationFetchingMore
+                    ? const CircularProgressIndicator()
+                    : const Text(
+                        '마지막 데이터입니다',
+                      ),
+              ),
+            );
+          }
           // final item = snapshot.data![index];,
           final pItem = cp.data[index];
 
@@ -86,7 +99,6 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
           );
         },
         separatorBuilder: (context, index) => const Divider(),
-        itemCount: cp.data.length,
       ),
     );
   }
