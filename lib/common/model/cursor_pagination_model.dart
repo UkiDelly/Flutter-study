@@ -8,7 +8,7 @@ part 'cursor_pagination_model.g.dart';
 abstract class CursorPaginationBase {}
 
 // error 상태
-abstract class CursorPaginationError extends CursorPaginationBase {
+class CursorPaginationError extends CursorPaginationBase {
   final String message;
 
   CursorPaginationError(this.message);
