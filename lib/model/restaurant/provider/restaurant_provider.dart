@@ -3,6 +3,20 @@ import 'package:flutter_study/common/model/cursor_pagination_model.dart';
 import 'package:flutter_study/repository/restaurant_repo.dart';
 
 import '../../../common/model/pagination_params.dart';
+import '../restaurant_model.dart';
+
+final restauratnDetailProvider = Provider.family<RestaurantModel?, String>((ref, id) {
+  final state = ref.watch(restaurantProvider);
+
+  // restaurantStateNotifire의 state이 CursorPagaintion이 아니라면, (즉, 데이터가 없다면)
+  if (state is! CursorPagination<RestaurantModel>) {
+    // null 반환
+    return null;
+  }
+
+  // 데이터가 있을때, restaurantStateNotifire의 state의 리스트에 있는 RestaurantModel의 id가 Provider이 id 값과 동일하다면 반환
+  return state.data.firstWhere((item) => item.id == id);
+});
 
 final restaurantProvider = StateNotifierProvider<RestaurantNotifier, CursorPaginationBase>((ref) {
   // provider에 있는 repo 가져오기
@@ -83,7 +97,6 @@ class RestaurantNotifier extends StateNotifier<CursorPaginationBase> {
         // param에 마지막 item의 id 추가
         params = params.copyWith(after: tempState.data.last.id);
 
-        
         // 데이터를 처음부터 가져오는 상황
       } else {
         // 만약 데이터가 있는 상황이면
@@ -114,8 +127,6 @@ class RestaurantNotifier extends StateNotifier<CursorPaginationBase> {
       } else {
         state = res;
       }
-
-
     } catch (e) {
       state = CursorPaginationError('데이터를 가져오지 못했습니다.');
     }

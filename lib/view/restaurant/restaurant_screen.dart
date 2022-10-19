@@ -89,7 +89,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
               MaterialPageRoute(
                 builder: (_) => RestaurantDetailScreen(
                   item: pItem,
-                  detail: '맜있는 떡볶이',
+                  id: pItem.id,
                 ),
               ),
             ),

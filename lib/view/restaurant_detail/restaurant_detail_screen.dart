@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/common/basic_screen.dart';
+import 'package:flutter_study/model/restaurant/provider/restaurant_provider.dart';
 
-import 'package:flutter_study/repository/restaurant_repo.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/widgets/product_card.dart';
 
@@ -11,35 +11,32 @@ import '../../model/restaurant/restaurant_model.dart';
 
 class RestaurantDetailScreen extends ConsumerWidget {
   final RestaurantModel item;
-  final String? detail;
-  const RestaurantDetailScreen({super.key, required this.item, this.detail});
+  final String id;
+  const RestaurantDetailScreen({super.key, required this.item, required this.id});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final repo = ref.watch(restaurantRepositoryProvider);
+    final state = ref.watch(restauratnDetailProvider(id));
+
+    if (state == null) {
+      return const Center(
+        child: CircularProgressIndicator.adaptive(),
+      );
+    }
+
     return BasicScreen(
       title: item.name,
-      child: FutureBuilder<RestaurantDetailModel>(
-        future: repo.getRestaurantDetail(item.id), //getRestaurantDetail(repo),
-        builder: (context, AsyncSnapshot<RestaurantDetailModel> snapshot) {
-          if (snapshot.hasData) {
-            final item = snapshot.data!;
-            return CustomScrollView(
-              slivers: [
-                renderTop(item),
-                renderLabel(),
-                renderProduct(item.products),
-              ],
-            );
-          }
-
-          return const Center(child: CircularProgressIndicator.adaptive());
-        },
+      child: CustomScrollView(
+        slivers: [
+          renderTop(state),
+          // renderLabel(),
+          // renderProduct(item.products),
+        ],
       ),
     );
   }
 
-  Widget renderTop(RestaurantDetailModel model) {
+  Widget renderTop(RestaurantModel model) {
     // sliver 안에 일반 위젯을 넣을시 필dy
     return SliverToBoxAdapter(
       child: Column(
@@ -48,13 +45,6 @@ class RestaurantDetailScreen extends ConsumerWidget {
             item: model,
             isDetail: true,
           ),
-          if (detail != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-              child: Text(
-                model.detail,
-              ),
-            ),
         ],
       ),
     );
