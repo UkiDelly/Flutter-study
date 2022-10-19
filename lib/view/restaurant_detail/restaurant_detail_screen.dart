@@ -60,6 +60,7 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
           RestaurantCard(
             item: model,
             isDetail: true,
+            heroKey: model.id,
           ),
           if (model is RestaurantDetailModel)
             Padding(

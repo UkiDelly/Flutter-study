@@ -7,11 +7,13 @@ import '../../../model/restaurant/restaurant_model.dart';
 class RestaurantCard extends StatelessWidget {
   final RestaurantModel item;
   final bool isDetail;
+  final String? heroKey;
 
   const RestaurantCard({
     super.key,
     required this.item,
     this.isDetail = false,
+    this.heroKey,
   });
 
   renderDot() {
@@ -29,13 +31,25 @@ class RestaurantCard extends StatelessWidget {
     return SizedBox(
       child: Column(
         children: [
-          ClipRRect(
-            borderRadius: isDetail ? BorderRadius.zero : BorderRadius.circular(12),
-            child: Image.network(
-              '$api/${item.thumbUrl}',
-              fit: BoxFit.cover,
+          if (heroKey != null)
+            Hero(
+              tag: ObjectKey(heroKey),
+              child: ClipRRect(
+                borderRadius: isDetail ? BorderRadius.zero : BorderRadius.circular(12),
+                child: Image.network(
+                  '$api/${item.thumbUrl}',
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-          ),
+          if (heroKey == null)
+            ClipRRect(
+              borderRadius: isDetail ? BorderRadius.zero : BorderRadius.circular(12),
+              child: Image.network(
+                '$api/${item.thumbUrl}',
+                fit: BoxFit.cover,
+              ),
+            ),
           const SizedBox(
             height: 16,
           ),
