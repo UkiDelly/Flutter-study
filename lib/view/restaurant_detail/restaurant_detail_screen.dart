@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/model/restaurant/provider/restaurant_provider.dart';
-
+import 'package:flutter_study/view/rating/components/rating_card.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/widgets/product_card.dart';
 import 'package:skeletons/skeletons.dart';
@@ -48,6 +48,18 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
           if (state is! RestaurantDetailModel) renderLoading(),
           if (state is RestaurantDetailModel) renderLabel(),
           if (state is RestaurantDetailModel) renderProduct(state.products),
+          const SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            sliver: SliverToBoxAdapter(
+              child: RatingCard(
+                email: 'jc@codefactory.ai',
+                avatarImage: AssetImage('asset/img/logo/codefactory_logo.png'),
+                rating: 4,
+                content: '맛있습니다',
+                images: [],
+              ),
+            ),
+          )
         ],
       ),
     );
