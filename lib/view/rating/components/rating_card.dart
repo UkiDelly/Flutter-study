@@ -22,7 +22,12 @@ class RatingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [header(), body(), imagesWidget()],
+      children: [
+        header(),
+        const SizedBox(height: 8),
+        body(),
+        imagesWidget(),
+      ],
     );
   }
 
@@ -56,7 +61,19 @@ class RatingCard extends StatelessWidget {
   }
 
   Widget body() {
-    return Container();
+    return Row(
+      children: [
+        Flexible(
+          child: Text(
+            content,
+            style: const TextStyle(
+              color: bodyTextColor,
+              fontSize: 14,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget imagesWidget() {
