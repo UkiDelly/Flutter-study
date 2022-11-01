@@ -1,3 +1,5 @@
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study/common/colors.dart';
 
@@ -26,7 +28,11 @@ class RatingCard extends StatelessWidget {
         header(),
         const SizedBox(height: 8),
         body(),
-        imagesWidget(),
+        if (images.isNotEmpty)
+          SizedBox(
+            height: 100,
+            child: imagesWidget(),
+          ),
       ],
     );
   }
@@ -77,6 +83,19 @@ class RatingCard extends StatelessWidget {
   }
 
   Widget imagesWidget() {
-    return Container();
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: images
+          .mapIndexed(
+            (index, element) => Padding(
+              padding: EdgeInsets.only(right: index == images.length ? 0 : 16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: element,
+              ),
+            ),
+          )
+          .toList(),
+    );
   }
 }
