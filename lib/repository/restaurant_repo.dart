@@ -43,4 +43,5 @@ abstract class RestaurantRepo {
     // {id}와 자동으로 매칭된다
     @Path() String id,
   );
+
 }
