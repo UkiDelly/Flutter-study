@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/common/model/cursor_pagination_model.dart';
 import 'package:flutter_study/model/restaurant/provider/restaurant_provider.dart';
+import 'package:flutter_study/model/restaurant/restaurant_model.dart';
 
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/restaurant_detail_screen.dart';
@@ -81,7 +82,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
             );
           }
           // final item = snapshot.data![index];,
-          final pItem = cp.data[index];
+          final pItem = cp.data[index] as RestaurantModel;
 
           return InkWell(
             splashFactory: NoSplash.splashFactory,
@@ -89,12 +90,13 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
               MaterialPageRoute(
                 builder: (_) => RestaurantDetailScreen(
                   item: pItem,
-                  detail: '맜있는 떡볶이',
+                  id: pItem.id,
                 ),
               ),
             ),
             child: RestaurantCard(
               item: pItem,
+              heroKey: pItem.id,
             ),
           );
         },
