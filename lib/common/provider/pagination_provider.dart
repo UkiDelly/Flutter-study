@@ -1,10 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/common/model/cursor_pagination_model.dart';
+import 'package:flutter_study/common/model/model_with_id.dart';
 import 'package:flutter_study/common/repository/base_pagination_repo.dart';
 
 import '../model/pagination_params.dart';
 
-class PaginationNotifier<T extends IBasePaginationRepo> extends StateNotifier<CursorPaginationBase> {
+class PaginationNotifier<T extends IBasePaginationRepo<M>, M extends IModelWithId>
+    extends StateNotifier<CursorPaginationBase> {
   final T repository;
   PaginationNotifier({required this.repository}) : super(CursorPaginationLoading());
 
@@ -59,10 +61,10 @@ class PaginationNotifier<T extends IBasePaginationRepo> extends StateNotifier<Cu
       // 데이터를 더 가져오는 상황
       if (fetchMore) {
         // fetchMore가 true인 상황은 state가 CursoPagintaion 즉, 데이터를 가지고 있는 상황이므로, state가 데이터를 가지고 있다고 확실시 한다.
-        final tempState = state as CursorPagination;
+        final tempState = state as CursorPagination<M>;
 
         // 상태를 fetchingMore으로 변경
-        state = CursoPaginationFetchingMore(meta: tempState.meta, data: tempState.data);
+        state = CursoPaginationFetchingMore<M>(meta: tempState.meta, data: tempState.data);
 
         // param에 마지막 item의 id 추가
         params = params.copyWith(after: tempState.data.last.id);
@@ -72,8 +74,8 @@ class PaginationNotifier<T extends IBasePaginationRepo> extends StateNotifier<Cu
         // 만약 데이터가 있는 상황이면
         // 기존 데이터를 보존한채로 fetch (api 요청)을 진행
         if (state is CursorPagination && !forceRefetch) {
-          final tempState = state as CursorPagination;
-          state = CursorPaginationRefetching(meta: tempState.meta, data: tempState.data);
+          final tempState = state as CursorPagination<M>;
+          state = CursorPaginationRefetching<M>(meta: tempState.meta, data: tempState.data);
 
           // 나머지 상황
         } else {
@@ -85,7 +87,7 @@ class PaginationNotifier<T extends IBasePaginationRepo> extends StateNotifier<Cu
 
       // 데이터를 더 가져오는 상황
       if (state is CursoPaginationFetchingMore) {
-        final tempState = state as CursoPaginationFetchingMore;
+        final tempState = state as CursoPaginationFetchingMore<M>;
 
         // 기존 데이터에
         // 새로운 데이터를 추가
@@ -113,14 +115,14 @@ class PaginationNotifier<T extends IBasePaginationRepo> extends StateNotifier<Cu
     if (state is! CursorPagination) return;
 
     // 데이터가 있는 상황
-    final tempState = state as CursorPagination;
+    final tempState = state as CursorPagination<M>;
 
     // detail api를 호출하여
     final res = await repository.getRestaurantDetail(id);
 
     state = tempState.copyWith(
       data: tempState.data
-          .map<RestaurantModel>(
+          .map<M>(
             // state 리스트의 RestaurantModel 데이터의 id가 입려받은 id 값과 일치하면, api 요청으로 받은 RestaurantDetailModel으로 변경하고
             // id 값이 같지 않다면 그냥 원래 데이터를 반환
 
