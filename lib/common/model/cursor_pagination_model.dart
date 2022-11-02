@@ -12,6 +12,9 @@ class CursorPaginationError extends CursorPaginationBase {
   final String message;
 
   CursorPaginationError(this.message);
+
+  @override
+  String toString() => 'CursorPaginationError(message: $message)';
 }
 
 // loading 상태

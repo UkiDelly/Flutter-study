@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/model/restaurant/provider/restaurant_provider.dart';
+import 'package:flutter_study/model/restaurant/provider/restaurant_rating_provider.dart';
 import 'package:flutter_study/view/rating/components/rating_card.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/widgets/product_card.dart';
@@ -29,6 +30,9 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(restauratnDetailProvider(widget.id));
+    final ratinState = ref.watch(restaurantRatingProvider(widget.id));
+
+    print(ratinState);
 
     if (state == null) {
       return const Center(

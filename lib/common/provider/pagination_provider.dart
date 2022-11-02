@@ -8,7 +8,10 @@ import '../model/pagination_params.dart';
 class PaginationNotifier<T extends IBasePaginationRepo<M>, M extends IModelWithId>
     extends StateNotifier<CursorPaginationBase> {
   final T repository;
-  PaginationNotifier({required this.repository}) : super(CursorPaginationLoading());
+  PaginationNotifier({required this.repository}) : super(CursorPaginationLoading()) {
+    // 이 안에 함수를 넣으면 class Instance가 생성되는 즉시 실행된다.
+    paginate();
+  }
 
   // 데이터 가져오기
   Future<void> paginate({
@@ -100,37 +103,8 @@ class PaginationNotifier<T extends IBasePaginationRepo<M>, M extends IModelWithI
         state = res;
       }
     } catch (e) {
+      print(e);
       state = CursorPaginationError('데이터를 가져오지 못했습니다.');
     }
-  }
-
-  void getDetail(String id) async {
-    // 아직 데이터가 하나도 없는 상태라면 즉, CursorPagination이 아니라면
-    // 데이터를 가져오는 시도를 한다.
-    if (state is! CursorPagination) {
-      await paginate();
-    }
-
-    // state가 CursorPagination이 아닐때 그냥 리턴
-    if (state is! CursorPagination) return;
-
-    // 데이터가 있는 상황
-    final tempState = state as CursorPagination<M>;
-
-    // detail api를 호출하여
-    final res = await repository.getRestaurantDetail(id);
-
-    state = tempState.copyWith(
-      data: tempState.data
-          .map<M>(
-            // state 리스트의 RestaurantModel 데이터의 id가 입려받은 id 값과 일치하면, api 요청으로 받은 RestaurantDetailModel으로 변경하고
-            // id 값이 같지 않다면 그냥 원래 데이터를 반환
-
-            // 즉 [RestaurantModel(1),RestaurantModel(2),RestaurantModel(3)] 에서 RestaurantModel(2)의 detail을 가져온다면 state는  [RestaurantModel(1),RestaurantDeatilModel(2),RestaurantModel(3)]로 변경된다.
-            // 변경이 가능한 이유는 RestaurantDetailModel은 RestauranModel은 상속 받기 때문이다.
-            (e) => e.id == id ? res : e,
-          )
-          .toList(),
-    );
   }
 }
