@@ -6,8 +6,6 @@ import 'package:flutter_study/model/restaurant/rating_model.dart';
 import 'package:retrofit/http.dart';
 
 import '../api/api_list.dart';
-import '../common/model/cursor_pagination_model.dart';
-import '../common/model/pagination_params.dart';
 
 part 'restaurant_rating_repo.g.dart';
 
@@ -21,12 +19,4 @@ final restaurantRatingRepoProvider = Provider.family<RestaurantRatingRepo, Strin
 @RestApi()
 abstract class RestaurantRatingRepo implements IBasePaginationRepo<RatingModel> {
   factory RestaurantRatingRepo(Dio dio, {String baseUrl}) = _RestaurantRatingRepo;
-
-  @GET('/')
-  @Headers(
-    {'accessToken': 'true'},
-  )
-  Future<CursorPagination<RatingModel>> paginate({
-    @Queries() PaginationParams? paginationParams = const PaginationParams(),
-  });
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/common/basic_screen.dart';
+import 'package:flutter_study/common/model/cursor_pagination_model.dart';
 import 'package:flutter_study/model/restaurant/provider/restaurant_provider.dart';
 import 'package:flutter_study/model/restaurant/provider/restaurant_rating_provider.dart';
+import 'package:flutter_study/model/restaurant/rating_model.dart';
 import 'package:flutter_study/view/rating/components/rating_card.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/widgets/product_card.dart';
@@ -30,9 +32,9 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(restauratnDetailProvider(widget.id));
-    final ratinState = ref.watch(restaurantRatingProvider(widget.id));
+    final ratingState = ref.watch(restaurantRatingProvider(widget.id));
 
-    print(ratinState);
+    print(ratingState);
 
     if (state == null) {
       return const Center(
@@ -52,18 +54,8 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
           if (state is! RestaurantDetailModel) renderLoading(),
           if (state is RestaurantDetailModel) renderLabel(),
           if (state is RestaurantDetailModel) renderProduct(state.products),
-          const SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            sliver: SliverToBoxAdapter(
-              child: RatingCard(
-                email: 'jc@codefactory.ai',
-                avatarImage: AssetImage('asset/img/logo/codefactory_logo.png'),
-                rating: 4,
-                content: '맛있습니다',
-                images: [],
-              ),
-            ),
-          )
+          if (ratingState is CursorPagination)
+            renderRatings(models: ratingState.data as List<RatingModel>),
         ],
       ),
     );
@@ -133,6 +125,21 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
             ),
           ),
           childCount: products.length,
+        ),
+      ),
+    );
+  }
+
+  Widget renderRatings({required List<RatingModel> models}) {
+    return const SliverPadding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      sliver: SliverToBoxAdapter(
+        child: RatingCard(
+          email: 'jc@codefactory.ai',
+          avatarImage: AssetImage('asset/img/logo/codefactory_logo.png'),
+          rating: 4,
+          content: '맛있습니다',
+          images: [],
         ),
       ),
     );

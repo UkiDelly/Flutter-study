@@ -14,14 +14,14 @@ class RatingModel implements IModelWithId {
   final int rating;
   final String content;
   @JsonKey(fromJson: DataUtils.listPathsToUrls)
-  final List<String>? imageUrls;
+  final List<String> imageUrls;
 
   RatingModel({
     required this.id,
     required this.user,
     required this.rating,
     required this.content,
-    this.imageUrls,
+    required this.imageUrls,
   });
 
   factory RatingModel.fromJson(Map<String, dynamic> json) => _$RatingModelFromJson(json);
