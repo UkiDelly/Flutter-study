@@ -102,7 +102,7 @@ class CustomInterceptor extends Interceptor {
         final options = err.requestOptions;
 
         // 새로운 accessToken으로 교체
-        options.headers.addAll({'authorization': 'B arer $refreashToken'});
+        options.headers.addAll({'authorization': 'Bearer $refreashToken'});
 
         // 요청 재전송
         final response = await dio.fetch(options);

@@ -36,7 +36,7 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BasicScreen(
-      title: "코팩 딜리버리",
+      title: '코팩 딜리버리',
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: primaryColor,
         unselectedItemColor: bodyTextColor,
@@ -57,7 +57,7 @@ class _RootTabState extends State<RootTab> with TickerProviderStateMixin {
         physics: const NeverScrollableScrollPhysics(),
         controller: controller,
         children: [
-          RestaurantScreen(),
+          const RestaurantScreen(),
           Container(
             child: const Text('2'),
           ),

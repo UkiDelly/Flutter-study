@@ -6,8 +6,8 @@ import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/common/colors.dart';
 import 'package:flutter_study/common/data.dart';
-import 'package:flutter_study/view/root/root_tab.dart';
 import 'package:flutter_study/view/login/login_screen.dart';
+import 'package:flutter_study/view/root/root_tab.dart';
 
 import '../../common/secure_storage/secure_storage.dart';
 
@@ -26,7 +26,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void checkToken() async {
     // get the token from the secure storage
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
-    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
     //
     try {
