@@ -8,3 +8,7 @@ This repository use to study Flutter's widgets and packages.
 - ValueKey   
 - Video Player
 - Freezed Plugin
+
+## login data
+id: test@codefactory.ai
+pw: testtest

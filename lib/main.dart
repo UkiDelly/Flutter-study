@@ -22,10 +22,8 @@ class _MyApp extends StatelessWidget {
   }
 }
 
-
 // Server Repo
 // "https://github.com/codefactory-co/flutter-lv2-server"
-
 
 // Flutter repo
 

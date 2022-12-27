@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/common/basic_screen.dart';
-import 'package:flutter_study/common/model/cursor_pagination_model.dart';
 import 'package:flutter_study/model/restaurant/provider/restaurant_provider.dart';
-import 'package:flutter_study/model/restaurant/provider/restaurant_rating_provider.dart';
 import 'package:flutter_study/model/restaurant/rating_model.dart';
 import 'package:flutter_study/view/rating/components/rating_card.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
@@ -32,9 +30,6 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(restauratnDetailProvider(widget.id));
-    final ratingState = ref.watch(restaurantRatingProvider(widget.id));
-
-    print(ratingState);
 
     if (state == null) {
       return const Center(
@@ -54,8 +49,6 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
           if (state is! RestaurantDetailModel) renderLoading(),
           if (state is RestaurantDetailModel) renderLabel(),
           if (state is RestaurantDetailModel) renderProduct(state.products),
-          if (ratingState is CursorPagination)
-            renderRatings(models: ratingState.data as List<RatingModel>),
         ],
       ),
     );

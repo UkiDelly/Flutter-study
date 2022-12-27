@@ -7,6 +7,7 @@ import '../model/pagination_params.dart';
 
 class PaginationNotifier<T extends IBasePaginationRepo<M>, M extends IModelWithId>
     extends StateNotifier<CursorPaginationBase> {
+  // T는 제너릭으로, Repository 클래스를 받는다.
   final T repository;
   PaginationNotifier({required this.repository}) : super(CursorPaginationLoading()) {
     // 이 안에 함수를 넣으면 class Instance가 생성되는 즉시 실행된다.
