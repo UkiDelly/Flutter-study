@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // 메소드 채널 생성
   // 채널 이름은 안드로이드/IOS에서도 동일하게 사용해야 통신이 가능함
   // 다른 앱들간의 간섭을 피하기 위해 패키지명으로 채널 이름을 설정하는 것이 좋음
-  static const MethodChannel channel = MethodChannel('com.example.flutterstudy');
+  static const MethodChannel channel = MethodChannel('com.example.flutter_study');
 
   String platformVersion = 'Unknown';
 
@@ -49,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
               onPressed: () async {
