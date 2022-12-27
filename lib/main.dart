@@ -30,13 +30,13 @@ class _HomeScreenState extends State<HomeScreen> {
   // 메소드 채널 생성
   // 채널 이름은 안드로이드/IOS에서도 동일하게 사용해야 통신이 가능함
   // 다른 앱들간의 간섭을 피하기 위해 패키지명으로 채널 이름을 설정하는 것이 좋음
-  static const MethodChannel channel = MethodChannel('com.example.flutterstudy/methodChannel');
+  static const MethodChannel channel = MethodChannel('com.example.flutterstudy');
 
   String platformVersion = 'Unknown';
 
   // 메소드 채널에서 데이터를 받아오는 함수 생성
   Future<String> getPlatformVersion() async {
-    // 메소드 채널에서 데이터를 받아오는 함수 호출
+    // 메소드 채널 안드로이드/IOS에서 정의한 메소드 호출
     final String version = await channel.invokeMethod('getPlatformVersion');
     return version;
   }
