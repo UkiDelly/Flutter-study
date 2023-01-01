@@ -102,8 +102,9 @@ class PaginationNotifier<T extends IBasePaginationRepo<M>, M extends IModelWithI
       } else {
         state = res;
       }
-    } catch (e) {
+    } catch (e, stack) {
       print(e);
+      print(stack);
       state = CursorPaginationError('데이터를 가져오지 못했습니다.');
     }
   }
