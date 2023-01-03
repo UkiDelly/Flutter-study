@@ -11,22 +11,20 @@ import '../model/restaurant/rating_model.dart';
 
 part 'restaurant_rating_repo.g.dart';
 
-final restaurantRatingRepoProvider = Provider.family<ResaturantRatingRepo, String>((ref, id) {
+final restaurantRatingRepoProvider = Provider.family<RestaurantRatingRepo, String>((ref, id) {
   final dio = ref.watch(dioProvider);
-  return ResaturantRatingRepo(dio, baseUrl: 'http://$api/restaurant/$id/rating');
+  return RestaurantRatingRepo(dio, baseUrl: 'http://$api/restaurant/$id/rating');
 });
 
 // http://api/restaurant/{restaurantId}/rating
 @RestApi()
-abstract class ResaturantRatingRepo implements IBasePaginationRepo<RatingModel> {
-  factory ResaturantRatingRepo(Dio dio, {String baseUrl}) = _ResaturantRatingRepo;
+abstract class RestaurantRatingRepo implements IBasePaginationRepo<RatingModel> {
+  factory RestaurantRatingRepo(Dio dio, {String baseUrl}) = _RestaurantRatingRepo;
 
   @override
   @GET('/')
-  @Headers(
-    {'accessToken': 'true'},
-  )
+  @Headers({'accessToken': true})
   Future<CursorPagination<RatingModel>> paginate({
-    @Queries() PaginationParams? paginationParams = const PaginationParams(),
+    PaginationParams? paginationParams = const PaginationParams(),
   });
 }

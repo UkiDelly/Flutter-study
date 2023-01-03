@@ -4,7 +4,6 @@ import 'package:flutter_study/common/dio.dart';
 import 'package:flutter_study/common/model/cursor_pagination_model.dart';
 import 'package:flutter_study/common/model/pagination_params.dart';
 import 'package:flutter_study/common/repository/base_pagination_repo.dart';
-
 import 'package:retrofit/http.dart';
 
 import '../api/api_list.dart';
@@ -26,12 +25,13 @@ abstract class RestaurantRepo implements IBasePaginationRepo<RestaurantModel> {
   factory RestaurantRepo(Dio dio, {String baseUrl}) = _RestaurantRepo;
 
   // http://localhost:3000/restaurant/
+  @override
   @GET('/')
   @Headers(
     {'accessToken': 'true'},
   )
   Future<CursorPagination<RestaurantModel>> paginate({
-    @Queries() PaginationParams? paginationParams = const PaginationParams(),
+    PaginationParams? paginationParams = const PaginationParams(),
   });
 
   // get 메소드 그리고 path
@@ -44,5 +44,4 @@ abstract class RestaurantRepo implements IBasePaginationRepo<RestaurantModel> {
     // {id}와 자동으로 매칭된다
     @Path() String id,
   );
-
 }
