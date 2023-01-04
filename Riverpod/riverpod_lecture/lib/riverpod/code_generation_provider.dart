@@ -15,7 +15,25 @@ final _testProvider = Provider<String>((ref) {
 // 이때 param에 ref를 넣어주는데, 함수와 같은 이름으로 넣어주어야 한다.(첫글자는 대문자로)
 // 함수 형태로 만들어져서 훨씬 직관적으로 변함
 // 이때 watch하는 방법은 이 함수가 아닌, 이 함수에 Provider가 붙은 getStateProvider를 사용하여 값을 참조
+// 이때 생성된 provider는 autoDisposeProvider로 생성된다.
 @riverpod
 String getState(GetStateRef ref) {
   return 'hello code generation';
+}
+
+// future provider
+// 원래 Future provider는 cache 되지만 지금 생성한 provider는 기본적으로 autoDisposeProvider이라 cache되지 않는다.
+//
+@riverpod
+Future<int> getStateFuture(GetStateFutureRef ref) async {
+  return await Future.delayed(const Duration(seconds: 3), () => 10);
+}
+
+// 대문자 Riverpod을 쓸때는 무조건 param을 받기 때문에 무조건 ()를 넣어야한다.
+@Riverpod(
+  // 살려둘지 말지 결정 true = 계속 살려두고, false = 살려두지 않음
+  keepAlive: true,
+)
+Future<int> getStateFuture2(GetStateFuture2Ref ref) async {
+  return await Future.delayed(const Duration(seconds: 3), () => 10);
 }

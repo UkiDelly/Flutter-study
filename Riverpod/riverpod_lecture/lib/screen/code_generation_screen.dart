@@ -9,14 +9,28 @@ class CodeGeneratioNScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // 이전에 사용하던 방법으로 state을 가져오기
-    final state1 = ref.watch(getStateProvider);
+    final state = ref.watch(getStateProvider);
+    final futureState = ref.watch(getStateFutureProvider);
+    final futureState2 = ref.watch(getStateFuture2Provider);
     return DefaultLayout(
       title: 'Code Generation',
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(state1),
+            Text('State: $state'),
+            const SizedBox(height: 20),
+            futureState.when(
+              data: (data) => Text('Future state: $data'),
+              error: (error, stackTrace) => const SizedBox.shrink(),
+              loading: () => const CircularProgressIndicator(),
+            ),
+            const SizedBox(height: 20),
+            futureState2.when(
+              data: (data) => Text('Future state that keep alive: $data'),
+              error: (error, stackTrace) => const SizedBox.shrink(),
+              loading: () => const CircularProgressIndicator(),
+            ),
           ],
         ),
       ),
