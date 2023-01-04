@@ -73,3 +73,27 @@ int getStateMultiply(
   return number1 * number2;
 }
 // --------------------------------------------------------------------------------------------------------
+
+
+//? StateNotifierProvider, StateNotifier
+// --------------------------------------------------------------------------------------------------------
+@riverpod
+class GetStateNotifier extends _$GetStateNotifier {
+  // 초기 상태를 지정해주는 함수를 오버라이드
+  @override
+  int build() {
+    return 0;
+  }
+
+  // 상태를 변경하는 함수
+  void increment() {
+    state++;
+  }
+
+  // 상태를 변경하는 함수
+  void decrement() {
+    state--;
+  }
+
+
+}

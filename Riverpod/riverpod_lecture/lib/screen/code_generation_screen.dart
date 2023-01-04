@@ -13,6 +13,9 @@ class CodeGeneratioNScreen extends ConsumerWidget {
     final futureState = ref.watch(getStateFutureProvider);
     final futureState2 = ref.watch(getStateFuture2Provider);
     final familyState = ref.watch(getStateMultiplyProvider(number1: 5, number2: 5));
+
+    // StateNotifier state 가져오기
+    final stateNotifierState = ref.watch(getStateNotifierProvider);
     return DefaultLayout(
       title: 'Code Generation',
       body: Center(
@@ -34,6 +37,24 @@ class CodeGeneratioNScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
             Text('Family state: $familyState'),
+
+            // state notifier
+            const SizedBox(height: 20),
+            Text('StateNotifier state: $stateNotifierState'),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () => ref.read(getStateNotifierProvider.notifier).increment(),
+                  child: const Text('+'),
+                ),
+                ElevatedButton(
+                  onPressed: () => ref.read(getStateNotifierProvider.notifier).decrement(),
+                  child: const Text('-'),
+                )
+              ],
+            )
           ],
         ),
       ),
