@@ -55,6 +55,18 @@ class CodeGeneratioNScreen extends ConsumerWidget {
                 )
               ],
             )
+
+            // invalidate() 함수 테스트
+            // state을 더이상 유효하지 않게 해서 초기상태로 되돌린다.
+            ,
+            ElevatedButton(
+              onPressed: () {
+                // ref.invalidate()는 2.0에 추가된 함수이다.
+                // StateNotifierProvider를 초기화 즉, 초기값은 0으로 되돌아간다.
+                ref.invalidate(getStateNotifierProvider);
+              },
+              child: const Text('Invalidate'),
+            ),
           ],
         ),
       ),
