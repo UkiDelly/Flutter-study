@@ -12,6 +12,7 @@ class CodeGeneratioNScreen extends ConsumerWidget {
     final state = ref.watch(getStateProvider);
     final futureState = ref.watch(getStateFutureProvider);
     final futureState2 = ref.watch(getStateFuture2Provider);
+    final familyState = ref.watch(getStateMultiplyProvider(number1: 5, number2: 5));
     return DefaultLayout(
       title: 'Code Generation',
       body: Center(
@@ -31,6 +32,8 @@ class CodeGeneratioNScreen extends ConsumerWidget {
               error: (error, stackTrace) => const SizedBox.shrink(),
               loading: () => const CircularProgressIndicator(),
             ),
+            const SizedBox(height: 20),
+            Text('Family state: $familyState'),
           ],
         ),
       ),

@@ -61,3 +61,81 @@ final getStateFuture2Provider = FutureProvider<int>(
       : _$getStateFuture2Hash,
 );
 typedef GetStateFuture2Ref = FutureProviderRef<int>;
+String _$getStateMultiplyHash() => r'8d75c88cd2737f5dd50553871829689541b3cac5';
+
+/// See also [getStateMultiply].
+class GetStateMultiplyProvider extends AutoDisposeProvider<int> {
+  GetStateMultiplyProvider({
+    required this.number1,
+    required this.number2,
+  }) : super(
+          (ref) => getStateMultiply(
+            ref,
+            number1: number1,
+            number2: number2,
+          ),
+          from: getStateMultiplyProvider,
+          name: r'getStateMultiplyProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getStateMultiplyHash,
+        );
+
+  final int number1;
+  final int number2;
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetStateMultiplyProvider &&
+        other.number1 == number1 &&
+        other.number2 == number2;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, number1.hashCode);
+    hash = _SystemHash.combine(hash, number2.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+typedef GetStateMultiplyRef = AutoDisposeProviderRef<int>;
+
+/// See also [getStateMultiply].
+final getStateMultiplyProvider = GetStateMultiplyFamily();
+
+class GetStateMultiplyFamily extends Family<int> {
+  GetStateMultiplyFamily();
+
+  GetStateMultiplyProvider call({
+    required int number1,
+    required int number2,
+  }) {
+    return GetStateMultiplyProvider(
+      number1: number1,
+      number2: number2,
+    );
+  }
+
+  @override
+  AutoDisposeProvider<int> getProviderOverride(
+    covariant GetStateMultiplyProvider provider,
+  ) {
+    return call(
+      number1: provider.number1,
+      number2: provider.number2,
+    );
+  }
+
+  @override
+  List<ProviderOrFamily>? get allTransitiveDependencies => null;
+
+  @override
+  List<ProviderOrFamily>? get dependencies => null;
+
+  @override
+  String? get name => r'getStateMultiplyProvider';
+}
