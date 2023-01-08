@@ -29,8 +29,6 @@ final restaurantProvider = StateNotifierProvider<RestaurantNotifier, CursorPagin
 // CursorPagination을 제너릭으로 넣으면 CursoPagination의 상태만 관리할수 있으므로,
 // CursoPaginationBase으로 제너릭을 변경하여 모든 상태를 관리 할수 있게 바꾼다.
 class RestaurantNotifier extends PaginationNotifier<RestaurantRepo, RestaurantModel> {
-  @override
-
   // super(){} 안에 함수를 넣으면, class가 생성될때 바로 실행할수 있게 할수 있다.
   // StateNotifier가 생성되자마자 paginate() 함수를 실행하므로, CursorPagination의 상태를 Loading으로 init한다.
   RestaurantNotifier({required super.repository});
@@ -49,7 +47,7 @@ class RestaurantNotifier extends PaginationNotifier<RestaurantRepo, RestaurantMo
     final tempState = state as CursorPagination<RestaurantModel>;
 
     // detail api를 호출하여
-    final res = await repository.getRestaurantDetail(id);              
+    final res = await repository.getRestaurantDetail(id);
 
     state = tempState.copyWith(
       data: tempState.data

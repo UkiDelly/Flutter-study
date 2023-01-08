@@ -16,14 +16,17 @@ final restaurantRatingRepoProvider = Provider.family<RestaurantRatingRepo, Strin
   return RestaurantRatingRepo(dio, baseUrl: 'http://$api/restaurant/$id/rating');
 });
 
-// http://api/restaurant/{restaurantId}/rating
+// http://api/restaurant/:rid/rating
+// FIXME: 에러가 나는 이유 찾기..
 @RestApi()
 abstract class RestaurantRatingRepo implements IBasePaginationRepo<RatingModel> {
   factory RestaurantRatingRepo(Dio dio, {String baseUrl}) = _RestaurantRatingRepo;
 
   @override
   @GET('/')
-  @Headers({'accessToken': true})
+  @Headers(
+    {'accessToken': 'true'},
+  )
   Future<CursorPagination<RatingModel>> paginate({
     PaginationParams? paginationParams = const PaginationParams(),
   });
