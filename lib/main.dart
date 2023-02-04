@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_study/provider_screen.dart';
+import 'package:provider/provider.dart';
+
+import 'provider/counter_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,6 +14,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Flutter study', home: Container());
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => Counter()),
+    ], child: const MaterialApp(title: 'Flutter study', home: ExampleHomeScreen()));
   }
 }
