@@ -17,6 +17,7 @@ final dioProvider = Provider<Dio>((ref) {
 // Dio의 Interceptor를 중간에 가로채기
 class CustomInterceptor extends Interceptor {
   final FlutterSecureStorage storage;
+
   CustomInterceptor({required this.storage});
 
   // 1) 요청을 보낼때
@@ -60,10 +61,10 @@ class CustomInterceptor extends Interceptor {
     return super.onResponse(response, handler);
   }
 
-  // 3) 에러가 났을때
+  // 3) 에러가 났을때p
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
-    print('[REQ] [${err.requestOptions.method}] ${err.requestOptions.uri}');
+    print('[Error] [REQ] [${err.requestOptions.method}] ${err.requestOptions.uri}');
     // refreshToken 가져오기
     final refreashToken = await storage.read(key: REFRESH_TOKEN_KEY);
 

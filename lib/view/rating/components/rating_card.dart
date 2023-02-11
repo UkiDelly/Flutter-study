@@ -25,7 +25,7 @@ class RatingCard extends StatelessWidget {
   factory RatingCard.fromModel({required RatingModel model}) {
     return RatingCard(
       avatarImage: NetworkImage(model.user.imageUrl),
-      images: model.imageUrls.map((e) => Image.network(e)).toList(),
+      images: model.imgUrls.map((e) => Image.network(e)).toList(),
       rating: model.rating,
       email: model.user.username,
       content: model.content,
@@ -35,15 +35,14 @@ class RatingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 16),
         header(),
         const SizedBox(height: 8),
         body(),
-        if (images.isNotEmpty)
-          SizedBox(
-            height: 100,
-            child: imagesWidget(),
-          ),
+        if (images.isNotEmpty) SizedBox(height: 100, child: imagesWidget()),
+        const Divider()
       ],
     );
   }
@@ -78,18 +77,15 @@ class RatingCard extends StatelessWidget {
   }
 
   Widget body() {
-    return Row(
-      children: [
-        Flexible(
-          child: Text(
-            content,
-            style: const TextStyle(
-              color: bodyTextColor,
-              fontSize: 14,
-            ),
-          ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Text(
+        content,
+        style: const TextStyle(
+          color: bodyTextColor,
+          fontSize: 14,
         ),
-      ],
+      ),
     );
   }
 

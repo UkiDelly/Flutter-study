@@ -13,7 +13,7 @@ part 'restaurant_rating_repo.g.dart';
 
 final restaurantRatingRepoProvider = Provider.family<RestaurantRatingRepo, String>((ref, id) {
   final dio = ref.watch(dioProvider);
-  return RestaurantRatingRepo(dio, baseUrl: 'http://$api/restaurant/$id/rating');
+  return RestaurantRatingRepo(dio, baseUrl: '$api/restaurant/$id/rating');
 });
 
 // http://api/restaurant/:rid/rating

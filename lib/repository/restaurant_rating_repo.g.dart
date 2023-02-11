@@ -20,7 +20,7 @@ class _RestaurantRatingRepo implements RestaurantRatingRepo {
 
   @override
   Future<CursorPagination<RatingModel>> paginate(
-      {paginationParams = const PaginationParams(),}) async {
+      {paginationParams = const PaginationParams()}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -39,7 +39,7 @@ class _RestaurantRatingRepo implements RestaurantRatingRepo {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),),);
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = CursorPagination<RatingModel>.fromJson(
       _result.data!,
       (json) => RatingModel.fromJson(json as Map<String, dynamic>),

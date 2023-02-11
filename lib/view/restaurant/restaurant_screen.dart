@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/common/model/cursor_pagination_model.dart';
+import 'package:flutter_study/common/utils/pagination_utils.dart';
 import 'package:flutter_study/model/restaurant/provider/restaurant_provider.dart';
 import 'package:flutter_study/model/restaurant/restaurant_model.dart';
-
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/restaurant_detail_screen.dart';
 
@@ -31,10 +31,14 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
 
     // 현재 위치 가져오기
     // conrtroller의 오프셋이 ListView 최대 길이보다 300px 덜 되는 위치에 왔으면
-    if (_scrollController.offset > _scrollController.position.maxScrollExtent - 300) {
-      // 데이터 추가 요청
-      ref.read(restaurantProvider.notifier).paginate(fetchMore: true);
-    }
+    // if (_scrollController.offset > _scrollController.position.maxScrollExtent - 300) {
+    //   // 데이터 추가 요청
+    //   ref.read(restaurantProvider.notifier).paginate(fetchMore: true);
+    // }
+
+    // 일반화해서 사용
+    PaginationUtils.paginate(
+        controller: _scrollController, provider: ref.read(restaurantProvider.notifier));
   }
 
   @override
