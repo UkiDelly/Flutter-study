@@ -8,9 +8,10 @@ import 'package:flutter_study/common/basic_screen.dart';
 import 'package:flutter_study/common/colors.dart';
 import 'package:flutter_study/common/data.dart';
 import 'package:flutter_study/common/secure_storage/secure_storage.dart';
-import 'package:flutter_study/view/root/root_tab.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_subtitle.dart';
 import 'package:flutter_study/view/login/widgets/login_screen_title.dart';
+import 'package:flutter_study/view/root/root_tab.dart';
+
 import '../../common/custom_text_from_field.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -100,12 +101,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     //
                     try {
                       // call the api
-                      Response response = await Dio()
-                          .post('$api/auth/login', options: Options(headers: {'authorization': 'Basic $token'}));
+                      Response response = await Dio().post(
+                        '$api/auth/login',
+                        options: Options(headers: {'authorization': 'Basic $token'}),
+                      );
 
                       // get the refresh & access token
                       final refreshToken = response.data['refreshToken'];
                       final accessToken = response.data['accessToken'];
+
+                      print('token: $accessToken');
 
                       final storage = ref.read(secureStorageProvider);
 

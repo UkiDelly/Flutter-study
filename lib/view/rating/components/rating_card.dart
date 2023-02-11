@@ -1,5 +1,8 @@
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study/common/colors.dart';
+import 'package:flutter_study/model/restaurant/rating_model.dart';
 
 class RatingCard extends StatelessWidget {
   // Network Image
@@ -19,10 +22,28 @@ class RatingCard extends StatelessWidget {
     required this.content,
   });
 
+  factory RatingCard.fromModel({required RatingModel model}) {
+    return RatingCard(
+      avatarImage: NetworkImage(model.user.imageUrl),
+      images: model.imgUrls.map((e) => Image.network(e)).toList(),
+      rating: model.rating,
+      email: model.user.username,
+      content: model.content,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [header(), body(), imagesWidget()],
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 16),
+        header(),
+        const SizedBox(height: 8),
+        body(),
+        if (images.isNotEmpty) SizedBox(height: 100, child: imagesWidget()),
+        const Divider()
+      ],
     );
   }
 
@@ -56,10 +77,32 @@ class RatingCard extends StatelessWidget {
   }
 
   Widget body() {
-    return Container();
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Text(
+        content,
+        style: const TextStyle(
+          color: bodyTextColor,
+          fontSize: 14,
+        ),
+      ),
+    );
   }
 
   Widget imagesWidget() {
-    return Container();
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: images
+          .mapIndexed(
+            (index, element) => Padding(
+              padding: EdgeInsets.only(right: index == images.length ? 0 : 16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: element,
+              ),
+            ),
+          )
+          .toList(),
+    );
   }
 }

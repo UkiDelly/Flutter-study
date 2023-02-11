@@ -12,6 +12,9 @@ class CursorPaginationError extends CursorPaginationBase {
   final String message;
 
   CursorPaginationError(this.message);
+
+  @override
+  String toString() => 'CursorPaginationError(message: $message)';
 }
 
 // loading 상태
@@ -30,7 +33,8 @@ class CursorPagination<T> extends CursorPaginationBase {
     required this.data,
   });
 
-  factory CursorPagination.fromJson(Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>
+  factory CursorPagination.fromJson(
+          Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>
       _$CursorPaginationFromJson(json, fromJsonT);
 
   CursorPagination<T> copyWith({
@@ -54,7 +58,8 @@ class CursorPaginationMeta {
     required this.hasMore,
   });
 
-  factory CursorPaginationMeta.fromJson(Map<String, dynamic> json) => _$CursorPaginationMetaFromJson(json);
+  factory CursorPaginationMeta.fromJson(Map<String, dynamic> json) =>
+      _$CursorPaginationMetaFromJson(json);
 }
 
 // 새로고침 할때

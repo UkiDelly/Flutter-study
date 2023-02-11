@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_study/common/basic_screen.dart';
-import 'package:flutter_study/model/restaurant/provider/restaurant_provider.dart';
-import 'package:flutter_study/view/rating/components/rating_card.dart';
-import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
-import 'package:flutter_study/view/restaurant_detail/widgets/product_card.dart';
 import 'package:skeletons/skeletons.dart';
 
+import '../../common/basic_screen.dart';
+import '../../common/model/cursor_pagination_model.dart';
+import '../../common/utils/pagination_utils.dart';
+import '../../model/restaurant/provider/restaurant_provider.dart';
+import '../../model/restaurant/provider/restaurant_rating_provider.dart';
+import '../../model/restaurant/rating_model.dart';
 import '../../model/restaurant/restaurant_detail_model.dart';
 import '../../model/restaurant/restaurant_model.dart';
+import '../rating/components/rating_card.dart';
+import '../restaurant/widgets/restaurant_card.dart';
+import 'widgets/product_card.dart';
 
 class RestaurantDetailScreen extends ConsumerStatefulWidget {
   final RestaurantModel item;
   final String id;
+
   const RestaurantDetailScreen({super.key, required this.item, required this.id});
 
   @override
@@ -20,15 +25,25 @@ class RestaurantDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen> {
+  ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     ref.read(restaurantProvider.notifier).getDetail(widget.id);
+    scrollController.addListener(listener);
+  }
+
+  void listener() {
+    PaginationUtils.paginate(
+        controller: scrollController,
+        provider: ref.read(restaurantRatingProvider(widget.id).notifier));
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(restauratnDetailProvider(widget.id));
+    final ratingState = ref.watch(restaurantRatingProvider(widget.id));
 
     if (state == null) {
       return const Center(
@@ -39,6 +54,7 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
     return BasicScreen(
       title: widget.item.name,
       child: CustomScrollView(
+        controller: scrollController,
         slivers: [
           renderTop(state),
           // if (state is! RestaurantDetailModel)
@@ -48,18 +64,7 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
           if (state is! RestaurantDetailModel) renderLoading(),
           if (state is RestaurantDetailModel) renderLabel(),
           if (state is RestaurantDetailModel) renderProduct(state.products),
-          const SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            sliver: SliverToBoxAdapter(
-              child: RatingCard(
-                email: 'jc@codefactory.ai',
-                avatarImage: AssetImage('asset/img/logo/codefactory_logo.png'),
-                rating: 4,
-                content: '맛있습니다',
-                images: [],
-              ),
-            ),
-          )
+          if (ratingState is CursorPagination<RatingModel>) renderRatings(models: ratingState.data)
         ],
       ),
     );
@@ -73,7 +78,7 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
           List.generate(
             3,
             (index) => Padding(
-              padding: const EdgeInsets.only(bottom: 32),
+              padding: const EdgeInsets.only(bottom: 16),
               child: SkeletonParagraph(
                 style: const SkeletonParagraphStyle(padding: EdgeInsets.zero, lines: 5),
               ),
@@ -129,6 +134,18 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
             ),
           ),
           childCount: products.length,
+        ),
+      ),
+    );
+  }
+
+  Widget renderRatings({required List<RatingModel> models}) {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          childCount: models.length,
+          (context, index) => RatingCard.fromModel(model: models[index]),
         ),
       ),
     );
