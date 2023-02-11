@@ -10,9 +10,9 @@ import '../../model/restaurant/provider/restaurant_rating_provider.dart';
 import '../../model/restaurant/rating_model.dart';
 import '../../model/restaurant/restaurant_detail_model.dart';
 import '../../model/restaurant/restaurant_model.dart';
-import '../rating/components/rating_card.dart';
 import '../restaurant/widgets/restaurant_card.dart';
 import 'widgets/product_card.dart';
+import 'widgets/rating_card.dart';
 
 class RestaurantDetailScreen extends ConsumerStatefulWidget {
   final RestaurantModel item;
