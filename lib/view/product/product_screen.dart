@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_study/common/model/cursor_pagination_model.dart';
-import 'package:flutter_study/model/product/product_model.dart';
 
+import '../../common/model/cursor_pagination_model.dart';
+import '../../model/product/product_model.dart';
 import '../../model/provider/product_provider.dart';
 
-class ProductTabView extends ConsumerStatefulWidget {
-  const ProductTabView({Key? key}) : super(key: key);
+class ProductScreen extends ConsumerStatefulWidget {
+  const ProductScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  ConsumerState createState() => _ProductTabViewState();
+  ConsumerState createState() => _ProductScreenState();
 }
 
-class _ProductTabViewState extends ConsumerState<ProductTabView> {
+class _ProductScreenState extends ConsumerState<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(productStateNotifierProvider);
