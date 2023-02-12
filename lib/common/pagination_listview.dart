@@ -51,6 +51,7 @@ class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<Pag
 
   @override
   Widget build(BuildContext context) {
+    // get state from the provider
     final state = ref.watch(widget.provider);
 
     // 완전 처음 로딩중일때
@@ -69,7 +70,7 @@ class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<Pag
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () => ref.read(widget.provider.notifier).paginate(forceRefetch: true),
-            child: const Text('다시 시'),
+            child: const Text('다시 시도'),
           ),
         ],
       );
@@ -89,9 +90,7 @@ class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<Pag
               child: Center(
                 child: cp is CursoPaginationFetchingMore
                     ? const CircularProgressIndicator()
-                    : const Text(
-                        '마지막 데이터입니다',
-                      ),
+                    : const Text('마지막 데이터입니다'),
               ),
             );
           }

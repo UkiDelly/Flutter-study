@@ -129,8 +129,8 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
         delegate: SliverChildBuilderDelegate(
           (context, index) => Padding(
             padding: const EdgeInsets.only(top: 16.0),
-            child: ProductCard(
-              products[index],
+            child: ProductCard.fromRestaurantModel(
+              product: products[index],
             ),
           ),
           childCount: products.length,

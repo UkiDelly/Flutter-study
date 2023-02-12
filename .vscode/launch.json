@@ -1,0 +1,67 @@
+{
+  // IntelliSense를 사용하여 가능한 특성에 대해 알아보세요.
+  // 기존 특성에 대한 설명을 보려면 가리킵니다.
+  // 자세한 내용을 보려면 https://go.microsoft.com/fwlink/?linkid=830387을(를) 방문하세요.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "flutter_study",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "flutter_study (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "flutter_study (release mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
+    {
+      "name": "Theory",
+      "cwd": "Riverpod/Theory",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "Theory (profile mode)",
+      "cwd": "Riverpod/Theory",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "Theory (release mode)",
+      "cwd": "Riverpod/Theory",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
+    {
+      "name": "riverpod_lecture",
+      "cwd": "Riverpod/riverpod_lecture",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "riverpod_lecture (profile mode)",
+      "cwd": "Riverpod/riverpod_lecture",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "riverpod_lecture (release mode)",
+      "cwd": "Riverpod/riverpod_lecture",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    }
+  ]
+}

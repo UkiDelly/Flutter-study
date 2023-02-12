@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_study/common/pagination_listview.dart';
+import 'package:flutter_study/model/product/product_model.dart';
+import 'package:flutter_study/model/provider/product_provider.dart';
+import 'package:flutter_study/view/restaurant_detail/widgets/product_card.dart';
 
-import '../../common/model/cursor_pagination_model.dart';
-import '../../model/product/product_model.dart';
-import '../../model/provider/product_provider.dart';
-
-class ProductScreen extends ConsumerStatefulWidget {
+class ProductScreen extends StatelessWidget {
   const ProductScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  ConsumerState createState() => _ProductScreenState();
-}
-
-class _ProductScreenState extends ConsumerState<ProductScreen> {
-  @override
   Widget build(BuildContext context) {
-    final state = ref.watch(productStateNotifierProvider);
-
-    if (state is CursorPagination<ProductModel>) return Placeholder();
-    return Container();
+    return PaginationListView<ProductModel>(
+      provider: productStateNotifierProvider,
+      itemBuilder: <ProductModel>(context, index, model) {
+        return ProductCard.fromProductModel(model: model);
+      },
+    );
   }
 }

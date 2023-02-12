@@ -36,7 +36,7 @@ class _ProductRepo implements ProductRepo {
     )
             .compose(
               _dio.options,
-              '/products',
+              '/',
               queryParameters: queryParameters,
               data: _data,
             )

@@ -13,7 +13,7 @@ class ProductModel implements IModelWithId {
 
   // 이름, 상세, 이미지
   final String name, detail;
-  @JsonKey(fromJson: DataUtils.pathToUrl)
+
   final String imgUrl;
 
   //  상품 가격
@@ -26,7 +26,7 @@ class ProductModel implements IModelWithId {
       {required this.id,
       required this.name,
       required this.detail,
-      required this.imgUrl,
+      @JsonKey(fromJson: DataUtils.pathToUrl) required this.imgUrl,
       required this.price,
       required this.restaurant});
 

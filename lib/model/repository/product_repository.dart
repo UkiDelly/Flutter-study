@@ -22,8 +22,10 @@ final productRepoProvider = Provider<ProductRepo>((ref) {
 abstract class ProductRepo implements IBasePaginationRepo<ProductModel> {
   factory ProductRepo(Dio dio, {String? baseUrl}) = _ProductRepo;
 
-  @GET('/products')
+  @override
+  @GET('/')
   @Headers({'accessToken': 'true'})
-  Future<CursorPagination<ProductModel>> paginate(
-      {@Queries() PaginationParams? paginationParams = const PaginationParams()});
+  Future<CursorPagination<ProductModel>> paginate({
+    @Queries() PaginationParams? paginationParams = const PaginationParams(),
+  });
 }
