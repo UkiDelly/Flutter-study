@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_study/api/api_list.dart';
 import 'package:flutter_study/common/colors.dart';
+import 'package:flutter_study/model/product/product_model.dart';
 
 import '../../../model/restaurant/restaurant_detail_model.dart';
 
 class ProductCard extends StatelessWidget {
-  final RestaurantProductModel product;
-  const ProductCard(this.product, {super.key});
+  final String img, name, detail;
+  final int price;
+
+  const ProductCard({
+    super.key,
+    required this.img,
+    required this.name,
+    required this.detail,
+    required this.price,
+  });
+
+  factory ProductCard.fromRestaurantModel({required RestaurantProductModel product}) {
+    return ProductCard(
+        img: product.imgUrl, name: product.name, detail: product.detail, price: product.price);
+  }
+
+  factory ProductCard.fromProductModel({required ProductModel model}) {
+    return ProductCard(
+        img: model.imgUrl, name: model.name, detail: model.detail, price: model.price);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +36,7 @@ class ProductCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.network(
-              '$api/${product.imgUrl}',
+              '$api/$img',
               width: 110,
               height: 110,
               fit: BoxFit.cover,
@@ -32,23 +51,24 @@ class ProductCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  product.name,
+                  name,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 Text(
-                  product.detail,
+                  detail,
                   maxLines: 2,
                   // 텍스트가 maxLine보다 길 경우 ...으로 표기
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(color: bodyTextColor, fontSize: 14),
                 ),
                 Text(
-                  '₩ ${product.price}',
+                  '₩ $price',
                   textAlign: TextAlign.right,
-                  style: const TextStyle(color: primaryColor, fontSize: 12, fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                      color: primaryColor, fontSize: 12, fontWeight: FontWeight.w500),
                 )
               ],
             ),
