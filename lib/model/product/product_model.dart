@@ -22,13 +22,14 @@ class ProductModel implements IModelWithId {
   //  상품이 속한 식당
   final RestaurantModel restaurant;
 
-  ProductModel(
-      {required this.id,
-      required this.name,
-      required this.detail,
-      @JsonKey(fromJson: DataUtils.pathToUrl) required this.imgUrl,
-      required this.price,
-      required this.restaurant});
+  ProductModel({
+    required this.id,
+    required this.name,
+    required this.detail,
+    @JsonKey(fromJson: DataUtils.pathToUrl) required this.imgUrl,
+    required this.price,
+    required this.restaurant,
+  });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => _$ProductModelFromJson(json);
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_study/model/product/product_model.dart';
 import 'package:flutter_study/view/restaurant/widgets/restaurant_card.dart';
 import 'package:flutter_study/view/restaurant_detail/restaurant_detail_screen.dart';
 
@@ -18,8 +19,7 @@ class RestaurantScreen extends StatelessWidget {
           splashFactory: NoSplash.splashFactory,
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) => RestaurantDetailScreen(
-                item: model,
+              builder: (_) => RestaurantDetailScreen<ProductModel >(
                 id: model.id,
               ),
             ),

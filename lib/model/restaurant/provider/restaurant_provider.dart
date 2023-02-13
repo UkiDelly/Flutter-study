@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_study/common/model/cursor_pagination_model.dart';
 import 'package:flutter_study/common/provider/pagination_provider.dart';
@@ -15,7 +16,7 @@ final restauratnDetailProvider = Provider.family<RestaurantModel?, String>((ref,
   }
 
   // 데이터가 있을때, restaurantStateNotifire의 state의 리스트에 있는 RestaurantModel의 id가 Provider이 id 값과 동일하다면 반환
-  return state.data.firstWhere((item) => item.id == id);
+  return state.data.firstWhereOrNull((item) => item.id == id);
 });
 
 final restaurantProvider = StateNotifierProvider<RestaurantNotifier, CursorPaginationBase>((ref) {
@@ -49,17 +50,28 @@ class RestaurantNotifier extends PaginationNotifier<RestaurantRepo, RestaurantMo
     // detail api를 호출하여
     final res = await repository.getRestaurantDetail(id);
 
-    state = tempState.copyWith(
-      data: tempState.data
-          .map<RestaurantModel>(
-            // state 리스트의 RestaurantModel 데이터의 id가 입려받은 id 값과 일치하면, api 요청으로 받은 RestaurantDetailModel으로 변경하고
-            // id 값이 같지 않다면 그냥 원래 데이터를 반환
+    // [RestaurantModel(1),RestaurantModel(2),RestaurantModel(3)]
+    // 요청 id: 10
+    // list.where((e) => e.id == 10) => 데이터 X
+    // 데이터가 없을때, 그냥 캐쉬의 끝에 데이터를 추가한다.
+    // 조건에 해당 되는 값이 없을때,
+    if (tempState.data.where((e) => e.id == id).isEmpty) {
+      state = tempState.copyWith(
+        data: <RestaurantModel>[...tempState.data, res],
+      );
+    } else {  
+      state = tempState.copyWith(
+        data: tempState.data
+            .map<RestaurantModel>(
+              // state 리스트의 RestaurantModel 데이터의 id가 입려받은 id 값과 일치하면, api 요청으로 받은 RestaurantDetailModel으로 변경하고
+              // id 값이 같지 않다면 그냥 원래 데이터를 반환
 
-            // 즉 [RestaurantModel(1),RestaurantModel(2),RestaurantModel(3)] 에서 RestaurantModel(2)의 detail을 가져온다면 state는  [RestaurantModel(1),RestaurantDeatilModel(2),RestaurantModel(3)]로 변경된다.
-            // 변경이 가능한 이유는 RestaurantDetailModel은 RestauranModel은 상속 받기 때문이다.
-            (e) => e.id == id ? res : e,
-          )
-          .toList(),
-    );
+              // 즉 [RestaurantModel(1),RestaurantModel(2),RestaurantModel(3)] 에서 RestaurantModel(2)의 detail을 가져온다면 state는  [RestaurantModel(1),RestaurantDeatilModel(2),RestaurantModel(3)]로 변경된다.
+              // 변경이 가능한 이유는 RestaurantDetailModel은 RestauranModel은 상속 받기 때문이다.
+              (e) => e.id == id ? res : e,
+            )
+            .toList(),
+      );
+    }
   }
 }

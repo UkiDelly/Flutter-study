@@ -31,6 +31,7 @@ class PaginationListView<T extends IModelWithId> extends ConsumerStatefulWidget 
 class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<PaginationListView> {
   final ScrollController controller = ScrollController();
 
+  // listner function
   void listen() {
     PaginationUtils.paginate(controller: controller, provider: ref.read(widget.provider.notifier));
   }
@@ -62,17 +63,20 @@ class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<Pag
 
       // 에러가 발생할때
     } else if (state is CursorPaginationError) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Text(state.message, textAlign: TextAlign.center),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () => ref.read(widget.provider.notifier).paginate(forceRefetch: true),
-            child: const Text('다시 시도'),
-          ),
-        ],
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text(state.message, textAlign: TextAlign.center),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => ref.read(widget.provider.notifier).paginate(forceRefetch: true),
+              child: const Text('다시 시도'),
+            ),
+          ],
+        ),
       );
     }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_study/common/model/model_with_id.dart';
 import 'package:skeletons/skeletons.dart';
 
 import '../../common/basic_screen.dart';
@@ -14,11 +15,10 @@ import '../restaurant/widgets/restaurant_card.dart';
 import 'widgets/product_card.dart';
 import 'widgets/rating_card.dart';
 
-class RestaurantDetailScreen extends ConsumerStatefulWidget {
-  final RestaurantModel item;
+class RestaurantDetailScreen<T extends IModelWithId> extends ConsumerStatefulWidget {
   final String id;
 
-  const RestaurantDetailScreen({super.key, required this.item, required this.id});
+  const RestaurantDetailScreen({super.key, required this.id});
 
   @override
   ConsumerState<RestaurantDetailScreen> createState() => _RestaurantDetailScreenState();
@@ -36,8 +36,9 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
 
   void listener() {
     PaginationUtils.paginate(
-        controller: scrollController,
-        provider: ref.read(restaurantRatingProvider(widget.id).notifier));
+      controller: scrollController,
+      provider: ref.read(restaurantRatingProvider(widget.id).notifier),
+    );
   }
 
   @override
@@ -52,7 +53,7 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
     }
 
     return BasicScreen(
-      title: widget.item.name,
+      title: state.name,
       child: CustomScrollView(
         controller: scrollController,
         slivers: [
