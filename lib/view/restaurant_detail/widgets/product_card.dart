@@ -19,12 +19,20 @@ class ProductCard extends StatelessWidget {
 
   factory ProductCard.fromRestaurantModel({required RestaurantProductModel product}) {
     return ProductCard(
-        img: product.imgUrl, name: product.name, detail: product.detail, price: product.price);
+      img: product.imgUrl,
+      name: product.name,
+      detail: product.detail,
+      price: product.price,
+    );
   }
 
   factory ProductCard.fromProductModel({required ProductModel model}) {
     return ProductCard(
-        img: model.imgUrl, name: model.name, detail: model.detail, price: model.price);
+      img: model.imgUrl,
+      name: model.name,
+      detail: model.detail,
+      price: model.price,
+    );
   }
 
   @override
@@ -68,7 +76,10 @@ class ProductCard extends StatelessWidget {
                   '₩ $price',
                   textAlign: TextAlign.right,
                   style: const TextStyle(
-                      color: primaryColor, fontSize: 12, fontWeight: FontWeight.w500),
+                    color: primaryColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
                 )
               ],
             ),
